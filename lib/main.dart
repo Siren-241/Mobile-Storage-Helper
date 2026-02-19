@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-void main() {
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'models/media_file.dart';
+
+late Isar isar;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final dir = await getApplicationDocumentsDirectory();
+  isar = await Isar.open(
+    [MediaFileSchema],
+    directory: dir.path
+  );
+
   runApp(const MyApp());
 }
 
