@@ -54,6 +54,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       type: RequestType.image,
     );
 
+    // List<AssetEntity> allImages = [];
     int total = 0;
 
     for (final album in albums) {
