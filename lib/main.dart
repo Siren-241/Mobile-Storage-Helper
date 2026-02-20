@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'models/media_file.dart';
+import 'services/MediaIndexer.dart';
 
 late Isar isar;
 
@@ -48,80 +48,34 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadImages();
+    _startIndexing();
   }
 
-  Future<void> _loadImages() async {
-    final permission = await PhotoManager.requestPermissionExtend();
-
-    if (!permission.isAuth) {
-      setState(() {
-        status = "Permission Denied";
-      });
-      return;
-    }
-
-    setState(() {
-      status = "Loading Media...";
-    });
-
-    final albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image | RequestType.video,
+  Future<void> _startIndexing() async {
+    final indexer = MediaIndexer(
+        isar: isar,
+        onStatusUpdate: (newStatus) {
+          if (mounted) {
+            setState(() {
+              status = newStatus;
+            });
+          }
+        }
     );
 
-    int totalIndexed = 0;
+    // Refactor below names
+    final imgCount = await indexer.loadMedia();
+    final pdfCount = await indexer.loadAllPDFs();
 
-    for (final album in albums) {
-      final assetCount = await album.assetCountAsync;
+    final mediaCount = await isar.mediaFiles.count();
 
-      int page = 0;
-      const int pageSize = 200;
-
-      while (page * pageSize < assetCount) {
-        final assets = await album.getAssetListPaged(page: page, size: pageSize);
-
-        List<MediaFile> newMediaFiles = [];
-
-        for (final asset in assets) {
-          final existing = await isar.mediaFiles
-              .filter()
-              .assetIdEqualTo(asset.id)
-              .findFirst();
-
-          if (existing != null) continue;
-
-          final file = await asset.file;
-          if (file == null) continue;
-
-          final media = MediaFile()
-            ..assetId = asset.id
-            ..fileName = file.path.split('/').last
-            ..path = file.path
-            ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
-            ..mimeType = asset.mimeType ?? ""
-            ..size = await file.length()
-            ..albumName = album.name
-            ..width = asset.width
-            ..height = asset.height
-            ..duration = asset.type == AssetType.video ? asset.duration : null;
-
-          newMediaFiles.add(media);
-        }
-        if (newMediaFiles.isNotEmpty) {
-          await isar.writeTxn(() async {
-            await isar.mediaFiles.putAll(newMediaFiles);
-          });
-          totalIndexed += newMediaFiles.length;
-        }
-        page++;
-      }
+    if(mounted){
+      setState(() {
+        newlyIndexedMediaCount = imgCount + pdfCount;
+        totalInDB = mediaCount;
+        status = "Done";
+      });
     }
-
-    totalInDB = await isar.mediaFiles.count();
-    setState(() {
-      newlyIndexedMediaCount = totalIndexed;
-      status = "Done";
-    });
   }
 
   @override
