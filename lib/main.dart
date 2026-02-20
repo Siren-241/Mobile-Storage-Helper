@@ -80,31 +80,36 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       while (page * pageSize < assetCount) {
         final assets = await album.getAssetListPaged(page: page, size: pageSize);
 
-        await isar.writeTxn(() async {
-          for (final asset in assets) {
-            final existing = await isar.mediaFiles
-                .filter()
-                .assetIdEqualTo(asset.id)
-                .findFirst();
+        List<MediaFile> newMediaFiles = [];
 
-            if (existing != null) continue;
+        for (final asset in assets) {
+          final existing = await isar.mediaFiles
+              .filter()
+              .assetIdEqualTo(asset.id)
+              .findFirst();
 
-            final file = await asset.file;
-            if (file == null) continue;
+          if (existing != null) continue;
 
-            final media = MediaFile()
-              ..assetId = asset.id
-              ..fileName = file.path.split('/').last
-              ..path = file.path
-              ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
-              ..mimeType = asset.mimeType ?? ""
-              ..size = await file.length()
-              ..albumName = album.name;
+          final file = await asset.file;
+          if (file == null) continue;
 
-            await isar.mediaFiles.put(media);
-            totalIndexed++;
-          }
-        });
+          final media = MediaFile()
+            ..assetId = asset.id
+            ..fileName = file.path.split('/').last
+            ..path = file.path
+            ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
+            ..mimeType = asset.mimeType ?? ""
+            ..size = await file.length()
+            ..albumName = album.name;
+
+          newMediaFiles.add(media);
+        }
+        if (newMediaFiles.isNotEmpty) {
+          await isar.writeTxn(() async {
+            await isar.mediaFiles.putAll(newMediaFiles);
+          });
+          totalIndexed += newMediaFiles.length;
+        }
         page++;
       }
     }
