@@ -13,4 +13,7 @@ class MediaFile {
   late String   mimeType;
   late int      size;
   late String   albumName;
+  int?          duration;
+  int?          width;
+  int?          height;
 }

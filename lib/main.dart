@@ -39,7 +39,8 @@ class MediaCounterScreen extends StatefulWidget {
 }
 
 class _MediaCounterScreenState extends State<MediaCounterScreen> {
-  int imageCount = 0;
+  int newlyIndexedMediaCount = 0;
+  int totalInDB = 0;
 
   String status = "Requesting Permissions...";
 
@@ -61,14 +62,13 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
     }
 
     setState(() {
-      status = "Loading Images...";
+      status = "Loading Media...";
     });
 
     final albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: RequestType.image | RequestType.video,
     );
 
-    // List<AssetEntity> allImages = [];
     int totalIndexed = 0;
 
     for (final album in albums) {
@@ -100,7 +100,10 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
             ..mimeType = asset.mimeType ?? ""
             ..size = await file.length()
-            ..albumName = album.name;
+            ..albumName = album.name
+            ..width = asset.width
+            ..height = asset.height
+            ..duration = asset.type == AssetType.video ? asset.duration : null;
 
           newMediaFiles.add(media);
         }
@@ -114,8 +117,9 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       }
     }
 
+    totalInDB = await isar.mediaFiles.count();
     setState(() {
-      imageCount = totalIndexed;
+      newlyIndexedMediaCount = totalIndexed;
       status = "Done";
     });
   }
@@ -127,7 +131,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       body: Center (
         child: Text(
           status == "Done"
-              ? "Indexed $imageCount images"
+              ? "Indexed $newlyIndexedMediaCount more media\n$totalInDB media in DB"
               : status,
 
           style: const TextStyle(fontSize: 22),

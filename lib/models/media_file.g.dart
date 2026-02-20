@@ -32,24 +32,39 @@ const MediaFileSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'fileName': PropertySchema(
+    r'duration': PropertySchema(
       id: 3,
+      name: r'duration',
+      type: IsarType.long,
+    ),
+    r'fileName': PropertySchema(
+      id: 4,
       name: r'fileName',
       type: IsarType.string,
     ),
+    r'height': PropertySchema(
+      id: 5,
+      name: r'height',
+      type: IsarType.long,
+    ),
     r'mimeType': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'mimeType',
       type: IsarType.string,
     ),
     r'path': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'path',
       type: IsarType.string,
     ),
     r'size': PropertySchema(
-      id: 6,
+      id: 8,
       name: r'size',
+      type: IsarType.long,
+    ),
+    r'width': PropertySchema(
+      id: 9,
+      name: r'width',
       type: IsarType.long,
     )
   },
@@ -95,10 +110,13 @@ void _mediaFileSerialize(
   writer.writeString(offsets[0], object.albumName);
   writer.writeString(offsets[1], object.assetId);
   writer.writeDateTime(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.fileName);
-  writer.writeString(offsets[4], object.mimeType);
-  writer.writeString(offsets[5], object.path);
-  writer.writeLong(offsets[6], object.size);
+  writer.writeLong(offsets[3], object.duration);
+  writer.writeString(offsets[4], object.fileName);
+  writer.writeLong(offsets[5], object.height);
+  writer.writeString(offsets[6], object.mimeType);
+  writer.writeString(offsets[7], object.path);
+  writer.writeLong(offsets[8], object.size);
+  writer.writeLong(offsets[9], object.width);
 }
 
 MediaFile _mediaFileDeserialize(
@@ -111,11 +129,14 @@ MediaFile _mediaFileDeserialize(
   object.albumName = reader.readString(offsets[0]);
   object.assetId = reader.readString(offsets[1]);
   object.createdAt = reader.readDateTime(offsets[2]);
-  object.fileName = reader.readString(offsets[3]);
+  object.duration = reader.readLongOrNull(offsets[3]);
+  object.fileName = reader.readString(offsets[4]);
+  object.height = reader.readLongOrNull(offsets[5]);
   object.id = id;
-  object.mimeType = reader.readString(offsets[4]);
-  object.path = reader.readStringOrNull(offsets[5]);
-  object.size = reader.readLong(offsets[6]);
+  object.mimeType = reader.readString(offsets[6]);
+  object.path = reader.readStringOrNull(offsets[7]);
+  object.size = reader.readLong(offsets[8]);
+  object.width = reader.readLongOrNull(offsets[9]);
   return object;
 }
 
@@ -133,13 +154,19 @@ P _mediaFileDeserializeProp<P>(
     case 2:
       return (reader.readDateTime(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 4:
       return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
+      return (reader.readString(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
       return (reader.readLong(offset)) as P;
+    case 9:
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -553,6 +580,76 @@ extension MediaFileQueryFilter
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'duration',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      durationIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'duration',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'duration',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -680,6 +777,75 @@ extension MediaFileQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'fileName',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'height',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'height',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'height',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'height',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'height',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'height',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1066,6 +1232,75 @@ extension MediaFileQueryFilter
       ));
     });
   }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'width',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'width',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'width',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'width',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'width',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'width',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension MediaFileQueryObject
@@ -1111,6 +1346,18 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
@@ -1120,6 +1367,18 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'height', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByHeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'height', Sort.desc);
     });
   }
 
@@ -1156,6 +1415,18 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortBySizeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'size', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByWidth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'width', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByWidthDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'width', Sort.desc);
     });
   }
 }
@@ -1198,6 +1469,18 @@ extension MediaFileQuerySortThenBy
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
@@ -1207,6 +1490,18 @@ extension MediaFileQuerySortThenBy
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'height', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByHeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'height', Sort.desc);
     });
   }
 
@@ -1257,6 +1552,18 @@ extension MediaFileQuerySortThenBy
       return query.addSortBy(r'size', Sort.desc);
     });
   }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByWidth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'width', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByWidthDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'width', Sort.desc);
+    });
+  }
 }
 
 extension MediaFileQueryWhereDistinct
@@ -1281,10 +1588,22 @@ extension MediaFileQueryWhereDistinct
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'duration');
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'fileName', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'height');
     });
   }
 
@@ -1305,6 +1624,12 @@ extension MediaFileQueryWhereDistinct
   QueryBuilder<MediaFile, MediaFile, QDistinct> distinctBySize() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'size');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByWidth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'width');
     });
   }
 }
@@ -1335,9 +1660,21 @@ extension MediaFileQueryProperty
     });
   }
 
+  QueryBuilder<MediaFile, int?, QQueryOperations> durationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'duration');
+    });
+  }
+
   QueryBuilder<MediaFile, String, QQueryOperations> fileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fileName');
+    });
+  }
+
+  QueryBuilder<MediaFile, int?, QQueryOperations> heightProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'height');
     });
   }
 
@@ -1356,6 +1693,12 @@ extension MediaFileQueryProperty
   QueryBuilder<MediaFile, int, QQueryOperations> sizeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'size');
+    });
+  }
+
+  QueryBuilder<MediaFile, int?, QQueryOperations> widthProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'width');
     });
   }
 }
