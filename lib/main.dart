@@ -69,15 +69,48 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
     );
 
     // List<AssetEntity> allImages = [];
-    int total = 0;
+    int totalIndexed = 0;
 
     for (final album in albums) {
-      final count = await album.assetCountAsync;
-      total += count;
+      final assetCount = await album.assetCountAsync;
+
+      int page = 0;
+      const int pageSize = 200;
+
+      while (page * pageSize < assetCount) {
+        final assets = await album.getAssetListPaged(page: page, size: pageSize);
+
+        await isar.writeTxn(() async {
+          for (final asset in assets) {
+            final existing = await isar.mediaFiles
+                .filter()
+                .assetIdEqualTo(asset.id)
+                .findFirst();
+
+            if (existing != null) continue;
+
+            final file = await asset.file;
+            if (file == null) continue;
+
+            final media = MediaFile()
+              ..assetId = asset.id
+              ..fileName = file.path.split('/').last
+              ..path = file.path
+              ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
+              ..mimeType = asset.mimeType ?? ""
+              ..size = await file.length()
+              ..albumName = album.name;
+
+            await isar.mediaFiles.put(media);
+            totalIndexed++;
+          }
+        });
+        page++;
+      }
     }
 
     setState(() {
-      imageCount = total;
+      imageCount = totalIndexed;
       status = "Done";
     });
   }
@@ -89,7 +122,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       body: Center (
         child: Text(
           status == "Done"
-              ? "Found $imageCount images"
+              ? "Indexed $imageCount images"
               : status,
 
           style: const TextStyle(fontSize: 22),
