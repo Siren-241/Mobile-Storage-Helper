@@ -8,11 +8,29 @@ class MediaIndexer {
   late Isar isar;
   final Function(String) onStatusUpdate;
 
+  Map<String, DateTime>? existingFilesMap;
+
   // Constructor
   MediaIndexer({required this.isar, required this.onStatusUpdate});
 
+  Future<void> init() async {
+    await _populateExistingFiles();
+  }
+
+  Future<void> _populateExistingFiles() async {
+    final existingFiles = await isar.mediaFiles
+        .where()
+        .findAll();
+    existingFilesMap = {
+      for (var file in existingFiles)
+        file.assetId: file.lastModified
+    }; // Map of assetId and its last updated time
+  }
+
   // Returns number of new media sent to DB
   Future<int> loadMedia() async {
+    if (existingFilesMap == null) await _populateExistingFiles();
+
     final permission = await PhotoManager.requestPermissionExtend();
 
     if (!permission.isAuth) {
@@ -40,22 +58,18 @@ class MediaIndexer {
         List<MediaFile> newMediaFiles = [];
 
         for (final asset in assets) {
-          // NOTE: No need to check for duplicates as assetId is made unique
-          // final existing = await isar.mediaFiles
-          //     .filter()
-          //     .assetIdEqualTo(asset.id)
-          //     .findFirst();
-          //
-          // if (existing != null) continue;
-
-          // final file = await asset.file;
-          // if (file == null) continue;
+          final existingModified = existingFilesMap?[asset.id];
+          if (existingModified != null &&
+              existingModified == asset.modifiedDateTime){
+            continue; // File already exists in DB. Don't add
+          }
 
           final media = MediaFile()
             ..assetId = asset.id
             ..fileName = asset.title ?? "" //file.path.split('/').last
             ..path = null //file.path
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
+            ..lastModified = asset.modifiedDateTime
             ..mimeType = asset.mimeType ?? ""
             ..size = 0 //await file.length()
             ..albumName = album.name
@@ -68,6 +82,9 @@ class MediaIndexer {
         if (newMediaFiles.isNotEmpty) {
           await isar.writeTxn(() async {
             await isar.mediaFiles.putAll(newMediaFiles);
+            for (var media in newMediaFiles) {
+              existingFilesMap?[media.assetId] = media.lastModified;
+            }
           });
           totalIndexed += newMediaFiles.length;
         }
@@ -81,6 +98,8 @@ class MediaIndexer {
   }
 
   Future<int> loadAllPDFs() async {
+    if (existingFilesMap == null) await _populateExistingFiles();
+
     onStatusUpdate("Requesting Storage Permissions...");
 
     var storagePermission = await Permission.manageExternalStorage.request();
@@ -111,20 +130,20 @@ class MediaIndexer {
       try {
         await for (final entity in dir.list(recursive: true, followLinks: false)){
           if (entity is File && entity.path.toLowerCase().endsWith('.pdf')) {
-            // NOTE: No need to check for duplicates as assetId is made unique
-            // final existing = await isar.mediaFiles
-            //     .filter()
-            //     .pathEqualTo(entity.path)
-            //     .findFirst();
-            //
-            // if (existing != null) continue;
-
             final stat = await entity.stat();
+
+            final existingModified = existingFilesMap?[entity.path];
+            if (existingModified != null &&
+                existingModified == stat.modified){
+              continue; // File already exists in DB. Don't add
+            }
+
             final media = MediaFile()
               ..assetId = entity.path
               ..fileName = entity.path.split('/').last
               ..path = entity.path
               ..createdAt = stat.changed
+              ..lastModified = stat.modified
               ..mimeType = "application/pdf"
               ..size = stat.size
               ..albumName = path.split('/').last;
@@ -142,6 +161,9 @@ class MediaIndexer {
     if (newPDFs.isNotEmpty) {
       await isar.writeTxn(() async {
         await isar.mediaFiles.putAll(newPDFs);
+        for (var media in newPDFs) {
+          existingFilesMap?[media.assetId] = media.lastModified;
+        }
       });
       newIndexed += newPDFs.length;
     }

@@ -47,23 +47,28 @@ const MediaFileSchema = CollectionSchema(
       name: r'height',
       type: IsarType.long,
     ),
-    r'mimeType': PropertySchema(
+    r'lastModified': PropertySchema(
       id: 6,
+      name: r'lastModified',
+      type: IsarType.dateTime,
+    ),
+    r'mimeType': PropertySchema(
+      id: 7,
       name: r'mimeType',
       type: IsarType.string,
     ),
     r'path': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'path',
       type: IsarType.string,
     ),
     r'size': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'size',
       type: IsarType.long,
     ),
     r'width': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'width',
       type: IsarType.long,
     )
@@ -127,10 +132,11 @@ void _mediaFileSerialize(
   writer.writeLong(offsets[3], object.duration);
   writer.writeString(offsets[4], object.fileName);
   writer.writeLong(offsets[5], object.height);
-  writer.writeString(offsets[6], object.mimeType);
-  writer.writeString(offsets[7], object.path);
-  writer.writeLong(offsets[8], object.size);
-  writer.writeLong(offsets[9], object.width);
+  writer.writeDateTime(offsets[6], object.lastModified);
+  writer.writeString(offsets[7], object.mimeType);
+  writer.writeString(offsets[8], object.path);
+  writer.writeLong(offsets[9], object.size);
+  writer.writeLong(offsets[10], object.width);
 }
 
 MediaFile _mediaFileDeserialize(
@@ -147,10 +153,11 @@ MediaFile _mediaFileDeserialize(
   object.fileName = reader.readString(offsets[4]);
   object.height = reader.readLongOrNull(offsets[5]);
   object.id = id;
-  object.mimeType = reader.readString(offsets[6]);
-  object.path = reader.readStringOrNull(offsets[7]);
-  object.size = reader.readLong(offsets[8]);
-  object.width = reader.readLongOrNull(offsets[9]);
+  object.lastModified = reader.readDateTime(offsets[6]);
+  object.mimeType = reader.readString(offsets[7]);
+  object.path = reader.readStringOrNull(offsets[8]);
+  object.size = reader.readLong(offsets[9]);
+  object.width = reader.readLongOrNull(offsets[10]);
   return object;
 }
 
@@ -174,12 +181,14 @@ P _mediaFileDeserializeProp<P>(
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 8:
-      return (reader.readLong(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 9:
+      return (reader.readLong(offset)) as P;
+    case 10:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1017,6 +1026,61 @@ extension MediaFileQueryFilter
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> lastModifiedEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastModified',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      lastModifiedGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastModified',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      lastModifiedLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastModified',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> lastModifiedBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastModified',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1496,6 +1560,18 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLastModified() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastModified', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLastModifiedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastModified', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMimeType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.asc);
@@ -1631,6 +1707,18 @@ extension MediaFileQuerySortThenBy
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLastModified() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastModified', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLastModifiedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastModified', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMimeType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.asc);
@@ -1721,6 +1809,12 @@ extension MediaFileQueryWhereDistinct
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLastModified() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastModified');
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMimeType(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1789,6 +1883,12 @@ extension MediaFileQueryProperty
   QueryBuilder<MediaFile, int?, QQueryOperations> heightProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'height');
+    });
+  }
+
+  QueryBuilder<MediaFile, DateTime, QQueryOperations> lastModifiedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastModified');
     });
   }
 

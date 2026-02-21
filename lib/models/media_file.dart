@@ -11,6 +11,7 @@ class MediaFile {
   late String   fileName;
   late String?  path;
   late DateTime createdAt;
+  late DateTime lastModified;
   late String   mimeType;
   late int      size;
   late String   albumName;

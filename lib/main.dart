@@ -63,6 +63,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
           }
         }
     );
+    await indexer.init();
 
     // Refactor below names
     final imgCount = await indexer.loadMedia();
