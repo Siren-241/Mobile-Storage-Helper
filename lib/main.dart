@@ -13,7 +13,8 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   isar = await Isar.open(
     [MediaFileSchema],
-    directory: dir.path
+    directory: dir.path,
+    inspector: true
   );
 
   runApp(const MyApp());

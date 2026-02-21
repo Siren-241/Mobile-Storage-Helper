@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:isar/isar.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../models/media_file.dart';
 
 class MediaIndexer {
@@ -82,6 +83,17 @@ class MediaIndexer {
   }
 
   Future<int> loadAllPDFs() async {
+    onStatusUpdate("Requesting Storage Permissions...");
+
+    var storagePermission = await Permission.manageExternalStorage.request();
+
+    if (!storagePermission.isGranted) {
+      storagePermission = await Permission.storage.request();
+    }
+    if (!storagePermission.isGranted) {
+      onStatusUpdate("Storage Permission Denied");
+      return 0;
+    }
     onStatusUpdate("Loading PDFs...");
     int newIndexed = 0;
 
@@ -124,6 +136,8 @@ class MediaIndexer {
           }
         }
       } catch (e){
+        print("Failed to load pdfs from $path");
+        print(e);
         continue;
       }
     }
