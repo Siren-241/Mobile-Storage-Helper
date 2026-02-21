@@ -40,23 +40,24 @@ class MediaIndexer {
         List<MediaFile> newMediaFiles = [];
 
         for (final asset in assets) {
-          final existing = await isar.mediaFiles
-              .filter()
-              .assetIdEqualTo(asset.id)
-              .findFirst();
+          // NOTE: No need to check for duplicates as assetId is made unique
+          // final existing = await isar.mediaFiles
+          //     .filter()
+          //     .assetIdEqualTo(asset.id)
+          //     .findFirst();
+          //
+          // if (existing != null) continue;
 
-          if (existing != null) continue;
-
-          final file = await asset.file;
-          if (file == null) continue;
+          // final file = await asset.file;
+          // if (file == null) continue;
 
           final media = MediaFile()
             ..assetId = asset.id
-            ..fileName = file.path.split('/').last
-            ..path = file.path
+            ..fileName = asset.title ?? "" //file.path.split('/').last
+            ..path = null //file.path
             ..createdAt = DateTime.fromMillisecondsSinceEpoch(asset.createDateTime.millisecondsSinceEpoch)
             ..mimeType = asset.mimeType ?? ""
-            ..size = await file.length()
+            ..size = 0 //await file.length()
             ..albumName = album.name
             ..width = asset.width
             ..height = asset.height
@@ -75,10 +76,7 @@ class MediaIndexer {
     }
 
     // totalInDB = await isar.mediaFiles.count();
-    // setState(() {
-    //   newlyIndexedMediaCount = totalIndexed;
-    //   status = "Done";
-    // });
+    onStatusUpdate("Done Indexing Media");
     return totalIndexed;
   }
 
@@ -111,16 +109,15 @@ class MediaIndexer {
       if(!await dir.exists()) continue;
 
       try {
-        final files = dir.listSync(recursive: true, followLinks: false);
-
-        for (final entity in files){
+        await for (final entity in dir.list(recursive: true, followLinks: false)){
           if (entity is File && entity.path.toLowerCase().endsWith('.pdf')) {
-            final existing = await isar.mediaFiles
-                .filter()
-                .pathEqualTo(entity.path)
-                .findFirst();
-
-            if (existing != null) continue;
+            // NOTE: No need to check for duplicates as assetId is made unique
+            // final existing = await isar.mediaFiles
+            //     .filter()
+            //     .pathEqualTo(entity.path)
+            //     .findFirst();
+            //
+            // if (existing != null) continue;
 
             final stat = await entity.stat();
             final media = MediaFile()
@@ -148,6 +145,7 @@ class MediaIndexer {
       });
       newIndexed += newPDFs.length;
     }
+    onStatusUpdate("Done Indexing PDFs");
     return newIndexed;
   }
 }

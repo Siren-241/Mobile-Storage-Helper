@@ -6,6 +6,7 @@ part 'media_file.g.dart';
 class MediaFile {
   Id id = Isar.autoIncrement;
 
+  @Index(unique: true, replace: true)
   late String   assetId;
   late String   fileName;
   late String?  path;

@@ -73,7 +73,21 @@ const MediaFileSchema = CollectionSchema(
   deserialize: _mediaFileDeserialize,
   deserializeProp: _mediaFileDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'assetId': IndexSchema(
+      id: 174362542210192109,
+      name: r'assetId',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'assetId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _mediaFileGetId,
@@ -184,6 +198,61 @@ void _mediaFileAttach(IsarCollection<dynamic> col, Id id, MediaFile object) {
   object.id = id;
 }
 
+extension MediaFileByIndex on IsarCollection<MediaFile> {
+  Future<MediaFile?> getByAssetId(String assetId) {
+    return getByIndex(r'assetId', [assetId]);
+  }
+
+  MediaFile? getByAssetIdSync(String assetId) {
+    return getByIndexSync(r'assetId', [assetId]);
+  }
+
+  Future<bool> deleteByAssetId(String assetId) {
+    return deleteByIndex(r'assetId', [assetId]);
+  }
+
+  bool deleteByAssetIdSync(String assetId) {
+    return deleteByIndexSync(r'assetId', [assetId]);
+  }
+
+  Future<List<MediaFile?>> getAllByAssetId(List<String> assetIdValues) {
+    final values = assetIdValues.map((e) => [e]).toList();
+    return getAllByIndex(r'assetId', values);
+  }
+
+  List<MediaFile?> getAllByAssetIdSync(List<String> assetIdValues) {
+    final values = assetIdValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'assetId', values);
+  }
+
+  Future<int> deleteAllByAssetId(List<String> assetIdValues) {
+    final values = assetIdValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'assetId', values);
+  }
+
+  int deleteAllByAssetIdSync(List<String> assetIdValues) {
+    final values = assetIdValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'assetId', values);
+  }
+
+  Future<Id> putByAssetId(MediaFile object) {
+    return putByIndex(r'assetId', object);
+  }
+
+  Id putByAssetIdSync(MediaFile object, {bool saveLinks = true}) {
+    return putByIndexSync(r'assetId', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByAssetId(List<MediaFile> objects) {
+    return putAllByIndex(r'assetId', objects);
+  }
+
+  List<Id> putAllByAssetIdSync(List<MediaFile> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'assetId', objects, saveLinks: saveLinks);
+  }
+}
+
 extension MediaFileQueryWhereSort
     on QueryBuilder<MediaFile, MediaFile, QWhere> {
   QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyId() {
@@ -257,6 +326,51 @@ extension MediaFileQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> assetIdEqualTo(
+      String assetId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'assetId',
+        value: [assetId],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> assetIdNotEqualTo(
+      String assetId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'assetId',
+              lower: [],
+              upper: [assetId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'assetId',
+              lower: [assetId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'assetId',
+              lower: [assetId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'assetId',
+              lower: [],
+              upper: [assetId],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
