@@ -8,29 +8,30 @@ class MediaIndexer {
   late Isar isar;
   final Function(String) onStatusUpdate;
 
-  Map<String, DateTime>? existingFilesMap;
+  Map<String, DateTime> _existingFilesMap = {};
+
+  final _scannedIds = <String>{};
 
   // Constructor
   MediaIndexer({required this.isar, required this.onStatusUpdate});
 
-  Future<void> init() async {
+  Future<void> _init() async {
     await _populateExistingFiles();
+    _scannedIds.clear();
   }
 
   Future<void> _populateExistingFiles() async {
     final existingFiles = await isar.mediaFiles
         .where()
         .findAll();
-    existingFilesMap = {
+    _existingFilesMap = {
       for (var file in existingFiles)
         file.assetId: file.lastModified
     }; // Map of assetId and its last updated time
   }
 
   // Returns number of new media sent to DB
-  Future<int> loadMedia() async {
-    if (existingFilesMap == null) await _populateExistingFiles();
-
+  Future<int> _loadMedia() async {
     final permission = await PhotoManager.requestPermissionExtend();
 
     if (!permission.isAuth) {
@@ -58,7 +59,10 @@ class MediaIndexer {
         List<MediaFile> newMediaFiles = [];
 
         for (final asset in assets) {
-          final existingModified = existingFilesMap?[asset.id];
+          // Append asset id to scanned ids to not delete it in _syncDeletions
+          _scannedIds.add(asset.id);
+
+          final existingModified = _existingFilesMap[asset.id];
           if (existingModified != null &&
               existingModified == asset.modifiedDateTime){
             continue; // File already exists in DB. Don't add
@@ -83,7 +87,7 @@ class MediaIndexer {
           await isar.writeTxn(() async {
             await isar.mediaFiles.putAll(newMediaFiles);
             for (var media in newMediaFiles) {
-              existingFilesMap?[media.assetId] = media.lastModified;
+              _existingFilesMap[media.assetId] = media.lastModified;
             }
           });
           totalIndexed += newMediaFiles.length;
@@ -97,9 +101,7 @@ class MediaIndexer {
     return totalIndexed;
   }
 
-  Future<int> loadAllPDFs() async {
-    if (existingFilesMap == null) await _populateExistingFiles();
-
+  Future<int> _loadAllPDFs() async {
     onStatusUpdate("Requesting Storage Permissions...");
 
     var storagePermission = await Permission.manageExternalStorage.request();
@@ -130,9 +132,12 @@ class MediaIndexer {
       try {
         await for (final entity in dir.list(recursive: true, followLinks: false)){
           if (entity is File && entity.path.toLowerCase().endsWith('.pdf')) {
+            // Append asset id to scanned ids to not delete it in _syncDeletions
+            _scannedIds.add(entity.path);
+
             final stat = await entity.stat();
 
-            final existingModified = existingFilesMap?[entity.path];
+            final existingModified = _existingFilesMap[entity.path];
             if (existingModified != null &&
                 existingModified == stat.modified){
               continue; // File already exists in DB. Don't add
@@ -162,7 +167,7 @@ class MediaIndexer {
       await isar.writeTxn(() async {
         await isar.mediaFiles.putAll(newPDFs);
         for (var media in newPDFs) {
-          existingFilesMap?[media.assetId] = media.lastModified;
+          _existingFilesMap[media.assetId] = media.lastModified;
         }
       });
       newIndexed += newPDFs.length;
@@ -170,4 +175,35 @@ class MediaIndexer {
     onStatusUpdate("Done Indexing PDFs");
     return newIndexed;
   }
+
+  Future<void> _syncDeletions() async {
+    final idsToDelete = _existingFilesMap.keys
+        .where((id) => !_scannedIds.contains(id))
+        .toList();
+
+    await isar.writeTxn(() async {
+      // Try later for optimization
+      // await isar.mediaFiles.deleteAllByAssetId(idsToDelete);
+      for (final id in idsToDelete) {
+        await isar.mediaFiles
+            .filter()
+            .assetIdEqualTo(id)
+            .deleteFirst();
+        _existingFilesMap.remove(id);
+      }
+    });
+  }
+
+  Future<int> runFullIndex() async {
+    await _init();
+
+    int temp = 0;
+    temp += await _loadMedia();
+    temp += await _loadAllPDFs();
+
+    await _syncDeletions();
+
+    return temp;
+  }
+
 }

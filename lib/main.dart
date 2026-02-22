@@ -63,17 +63,14 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
           }
         }
     );
-    await indexer.init();
 
     // Refactor below names
-    final imgCount = await indexer.loadMedia();
-    final pdfCount = await indexer.loadAllPDFs();
+    newlyIndexedMediaCount += await indexer.runFullIndex();
 
     final mediaCount = await isar.mediaFiles.count();
 
     if(mounted){
       setState(() {
-        newlyIndexedMediaCount = imgCount + pdfCount;
         totalInDB = mediaCount;
         status = "Done";
       });
