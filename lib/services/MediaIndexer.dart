@@ -183,12 +183,12 @@ class MediaIndexer {
 
     await isar.writeTxn(() async {
       // Try later for optimization
-      // await isar.mediaFiles.deleteAllByAssetId(idsToDelete);
+      await isar.mediaFiles.deleteAllByAssetId(idsToDelete);
       for (final id in idsToDelete) {
-        await isar.mediaFiles
-            .filter()
-            .assetIdEqualTo(id)
-            .deleteFirst();
+        // await isar.mediaFiles
+        //     .filter()
+        //     .assetIdEqualTo(id)
+        //     .deleteFirst();
         _existingFilesMap.remove(id);
       }
     });
