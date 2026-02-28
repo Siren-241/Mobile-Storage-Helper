@@ -1,9 +1,15 @@
 import 'package:exif/exif.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'dart:io';
 import 'package:storage_query_engine/models/media_file.dart';
 
 Future<void> processMediaMetadata(MediaFile media) async {
   try {
+    if (media.path == null) {
+      final asset = await AssetEntity.fromId(media.assetId);
+      final file = await asset?.file;
+      media.path = file?.path;
+    }
     if (media.path == null) throw Exception("Path is null"); // Requires path to be filled in before func call
 
     final bytes = await File(media.path!).readAsBytes();
