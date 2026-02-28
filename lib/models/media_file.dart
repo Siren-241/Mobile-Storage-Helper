@@ -18,4 +18,13 @@ class MediaFile {
   int?          duration;
   int?          width;
   int?          height;
+
+  String?       exifCamera;
+  DateTime?     exifDate;
+  double?       latitude;
+  double?       longitude;
+
+  String?       extractedText;
+  bool          metadataProcessed = false;
+  bool          metadataFailed = false;
 }

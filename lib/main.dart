@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:storage_query_engine/services/Enricher.dart';
 
 import 'models/media_file.dart';
 import 'services/MediaIndexer.dart';
@@ -39,6 +40,7 @@ class MediaCounterScreen extends StatefulWidget {
   State<MediaCounterScreen> createState() => _MediaCounterScreenState();
 }
 
+
 class _MediaCounterScreenState extends State<MediaCounterScreen> {
   int newlyIndexedMediaCount = 0;
   int totalInDB = 0;
@@ -69,12 +71,30 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
 
     final mediaCount = await isar.mediaFiles.count();
 
-    if(mounted){
+    if (mounted) {
       setState(() {
         totalInDB = mediaCount;
+        status = "Enriching Metadata...";
+      });
+    }
+
+    await _startBackgroundEnrichment();
+
+    if (mounted) {
+      setState(() {
         status = "Done";
       });
     }
+  }
+
+  Future<void> _startBackgroundEnrichment() async {
+    final count = await isar.mediaFiles
+        .filter()
+        .metadataProcessedEqualTo(false)
+        .count();
+    if (count == 0) return;
+
+    await enrichUnprocessedMedia(isar: isar);
   }
 
   @override

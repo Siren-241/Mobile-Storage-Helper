@@ -37,38 +37,73 @@ const MediaFileSchema = CollectionSchema(
       name: r'duration',
       type: IsarType.long,
     ),
-    r'fileName': PropertySchema(
+    r'exifCamera': PropertySchema(
       id: 4,
+      name: r'exifCamera',
+      type: IsarType.string,
+    ),
+    r'exifDate': PropertySchema(
+      id: 5,
+      name: r'exifDate',
+      type: IsarType.dateTime,
+    ),
+    r'extractedText': PropertySchema(
+      id: 6,
+      name: r'extractedText',
+      type: IsarType.string,
+    ),
+    r'fileName': PropertySchema(
+      id: 7,
       name: r'fileName',
       type: IsarType.string,
     ),
     r'height': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'height',
       type: IsarType.long,
     ),
     r'lastModified': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'lastModified',
       type: IsarType.dateTime,
     ),
+    r'latitude': PropertySchema(
+      id: 10,
+      name: r'latitude',
+      type: IsarType.double,
+    ),
+    r'longitude': PropertySchema(
+      id: 11,
+      name: r'longitude',
+      type: IsarType.double,
+    ),
+    r'metadataFailed': PropertySchema(
+      id: 12,
+      name: r'metadataFailed',
+      type: IsarType.bool,
+    ),
+    r'metadataProcessed': PropertySchema(
+      id: 13,
+      name: r'metadataProcessed',
+      type: IsarType.bool,
+    ),
     r'mimeType': PropertySchema(
-      id: 7,
+      id: 14,
       name: r'mimeType',
       type: IsarType.string,
     ),
     r'path': PropertySchema(
-      id: 8,
+      id: 15,
       name: r'path',
       type: IsarType.string,
     ),
     r'size': PropertySchema(
-      id: 9,
+      id: 16,
       name: r'size',
       type: IsarType.long,
     ),
     r'width': PropertySchema(
-      id: 10,
+      id: 17,
       name: r'width',
       type: IsarType.long,
     )
@@ -109,6 +144,18 @@ int _mediaFileEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.albumName.length * 3;
   bytesCount += 3 + object.assetId.length * 3;
+  {
+    final value = object.exifCamera;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.extractedText;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.fileName.length * 3;
   bytesCount += 3 + object.mimeType.length * 3;
   {
@@ -130,13 +177,20 @@ void _mediaFileSerialize(
   writer.writeString(offsets[1], object.assetId);
   writer.writeDateTime(offsets[2], object.createdAt);
   writer.writeLong(offsets[3], object.duration);
-  writer.writeString(offsets[4], object.fileName);
-  writer.writeLong(offsets[5], object.height);
-  writer.writeDateTime(offsets[6], object.lastModified);
-  writer.writeString(offsets[7], object.mimeType);
-  writer.writeString(offsets[8], object.path);
-  writer.writeLong(offsets[9], object.size);
-  writer.writeLong(offsets[10], object.width);
+  writer.writeString(offsets[4], object.exifCamera);
+  writer.writeDateTime(offsets[5], object.exifDate);
+  writer.writeString(offsets[6], object.extractedText);
+  writer.writeString(offsets[7], object.fileName);
+  writer.writeLong(offsets[8], object.height);
+  writer.writeDateTime(offsets[9], object.lastModified);
+  writer.writeDouble(offsets[10], object.latitude);
+  writer.writeDouble(offsets[11], object.longitude);
+  writer.writeBool(offsets[12], object.metadataFailed);
+  writer.writeBool(offsets[13], object.metadataProcessed);
+  writer.writeString(offsets[14], object.mimeType);
+  writer.writeString(offsets[15], object.path);
+  writer.writeLong(offsets[16], object.size);
+  writer.writeLong(offsets[17], object.width);
 }
 
 MediaFile _mediaFileDeserialize(
@@ -150,14 +204,21 @@ MediaFile _mediaFileDeserialize(
   object.assetId = reader.readString(offsets[1]);
   object.createdAt = reader.readDateTime(offsets[2]);
   object.duration = reader.readLongOrNull(offsets[3]);
-  object.fileName = reader.readString(offsets[4]);
-  object.height = reader.readLongOrNull(offsets[5]);
+  object.exifCamera = reader.readStringOrNull(offsets[4]);
+  object.exifDate = reader.readDateTimeOrNull(offsets[5]);
+  object.extractedText = reader.readStringOrNull(offsets[6]);
+  object.fileName = reader.readString(offsets[7]);
+  object.height = reader.readLongOrNull(offsets[8]);
   object.id = id;
-  object.lastModified = reader.readDateTime(offsets[6]);
-  object.mimeType = reader.readString(offsets[7]);
-  object.path = reader.readStringOrNull(offsets[8]);
-  object.size = reader.readLong(offsets[9]);
-  object.width = reader.readLongOrNull(offsets[10]);
+  object.lastModified = reader.readDateTime(offsets[9]);
+  object.latitude = reader.readDoubleOrNull(offsets[10]);
+  object.longitude = reader.readDoubleOrNull(offsets[11]);
+  object.metadataFailed = reader.readBool(offsets[12]);
+  object.metadataProcessed = reader.readBool(offsets[13]);
+  object.mimeType = reader.readString(offsets[14]);
+  object.path = reader.readStringOrNull(offsets[15]);
+  object.size = reader.readLong(offsets[16]);
+  object.width = reader.readLongOrNull(offsets[17]);
   return object;
 }
 
@@ -177,18 +238,32 @@ P _mediaFileDeserializeProp<P>(
     case 3:
       return (reader.readLongOrNull(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readString(offset)) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 9:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 10:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 11:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 12:
+      return (reader.readBool(offset)) as P;
+    case 13:
+      return (reader.readBool(offset)) as P;
+    case 14:
+      return (reader.readString(offset)) as P;
+    case 15:
+      return (reader.readStringOrNull(offset)) as P;
+    case 16:
+      return (reader.readLong(offset)) as P;
+    case 17:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -773,6 +848,381 @@ extension MediaFileQueryFilter
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'exifCamera',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifCameraIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'exifCamera',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifCameraGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'exifCamera',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifCameraStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'exifCamera',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'exifCamera',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifCameraIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'exifCamera',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifCameraIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'exifCamera',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'exifDate',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      exifDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'exifDate',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'exifDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'exifDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'exifDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'exifDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'extractedText',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'extractedText',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'extractedText',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'extractedText',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'extractedText',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'extractedText',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      extractedTextIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'extractedText',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1077,6 +1527,185 @@ extension MediaFileQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'latitude',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      latitudeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'latitude',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'latitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'latitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'latitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'latitude',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'longitude',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      longitudeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'longitude',
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'longitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      longitudeGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'longitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'longitude',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'longitude',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      metadataFailedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'metadataFailed',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+      metadataProcessedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'metadataProcessed',
+        value: value,
       ));
     });
   }
@@ -1536,6 +2165,42 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifCamera() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifCamera', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifCameraDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifCamera', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExtractedText() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extractedText', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExtractedTextDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extractedText', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
@@ -1569,6 +2234,55 @@ extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLatitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latitude', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLatitudeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latitude', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLongitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'longitude', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLongitudeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'longitude', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataFailed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataFailed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataFailedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataFailed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataProcessed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataProcessed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy>
+      sortByMetadataProcessedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataProcessed', Sort.desc);
     });
   }
 
@@ -1671,6 +2385,42 @@ extension MediaFileQuerySortThenBy
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifCamera() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifCamera', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifCameraDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifCamera', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'exifDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExtractedText() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extractedText', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExtractedTextDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extractedText', Sort.desc);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
@@ -1716,6 +2466,55 @@ extension MediaFileQuerySortThenBy
   QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLatitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latitude', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLatitudeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'latitude', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLongitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'longitude', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLongitudeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'longitude', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataFailed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataFailed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataFailedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataFailed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataProcessed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataProcessed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterSortBy>
+      thenByMetadataProcessedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'metadataProcessed', Sort.desc);
     });
   }
 
@@ -1796,6 +2595,27 @@ extension MediaFileQueryWhereDistinct
     });
   }
 
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExifCamera(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'exifCamera', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExifDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'exifDate');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExtractedText(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'extractedText',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1812,6 +2632,30 @@ extension MediaFileQueryWhereDistinct
   QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastModified');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLatitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'latitude');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLongitude() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'longitude');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMetadataFailed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'metadataFailed');
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMetadataProcessed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'metadataProcessed');
     });
   }
 
@@ -1874,6 +2718,24 @@ extension MediaFileQueryProperty
     });
   }
 
+  QueryBuilder<MediaFile, String?, QQueryOperations> exifCameraProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'exifCamera');
+    });
+  }
+
+  QueryBuilder<MediaFile, DateTime?, QQueryOperations> exifDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'exifDate');
+    });
+  }
+
+  QueryBuilder<MediaFile, String?, QQueryOperations> extractedTextProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'extractedText');
+    });
+  }
+
   QueryBuilder<MediaFile, String, QQueryOperations> fileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fileName');
@@ -1889,6 +2751,30 @@ extension MediaFileQueryProperty
   QueryBuilder<MediaFile, DateTime, QQueryOperations> lastModifiedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastModified');
+    });
+  }
+
+  QueryBuilder<MediaFile, double?, QQueryOperations> latitudeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'latitude');
+    });
+  }
+
+  QueryBuilder<MediaFile, double?, QQueryOperations> longitudeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'longitude');
+    });
+  }
+
+  QueryBuilder<MediaFile, bool, QQueryOperations> metadataFailedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'metadataFailed');
+    });
+  }
+
+  QueryBuilder<MediaFile, bool, QQueryOperations> metadataProcessedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'metadataProcessed');
     });
   }
 

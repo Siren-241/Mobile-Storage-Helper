@@ -50,6 +50,8 @@ dev_dependencies:
   # custom
   isar_generator: 3.1.0+1
   build_runner: ^2.4.0
+  exif: ^3.1.4
+  syncfusion_flutter_pdf: ^24.1.41
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
