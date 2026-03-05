@@ -16,15 +16,27 @@ Future<void> processPDFMetadata(MediaFile media) async {
     final doc = PdfDocument(inputBytes: bytes);
 
     final extractor = PdfTextExtractor(doc);
-    final text = extractor.extractText();
+    String text = '';
 
-    media.extractedText = text.length > 5000
-        ? text.substring(0, 5000)
-        : text;
+    final pageCount = doc.pages.count;
+
+    if (pageCount > 999) {
+      throw Exception("File too large to parse"); // Fix this in future
+    }
+
+    final maxPages = pageCount > 3 ? 3 : pageCount;
+    for (int i = 0; i < maxPages; i++) {
+      text += extractor.extractText(startPageIndex: i, endPageIndex: i);
+    }
+
+    media.extractedText = text.substring(0, 5000);
+    // Research apache pdfbox to optimize extraction
 
     media.metadataProcessed = true;
 
     doc.dispose();
+
+    await Future.delayed(Duration(milliseconds: 50));
   } catch (e) {
     print("Metadata Enrichment Failed for ${media.fileName}: $e");
     media.metadataFailed = true;
