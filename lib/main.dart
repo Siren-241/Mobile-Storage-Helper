@@ -20,7 +20,7 @@ void main() async {
     directory: dir.path,
     inspector: true
   );
-
+  searchEngine = SearchEngine(isar);
   runApp(const MyApp());
 }
 
@@ -110,17 +110,11 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
           children: [
             ElevatedButton(
                 onPressed: () async {
-                  // for (final asset in results){
-                  //   print(asset.fileName);
-                  //   print(asset.path);
-                  //   print("\n");
-                  // }
-
                   setState(() {
-                    searchFuture = searchEngine.searchByText("VIT");
+                    searchFuture = searchEngine.searchByDate(start: DateTime(2026, 3));
                   });
-                }
-                , child: Text("Search")
+                },
+                child: Text("Search")
             ),
             TextField(
               onSubmitted: (value) {
@@ -158,7 +152,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(results[index].fileName),
-                        subtitle: Text(results[index].path ?? ""),
+                        subtitle: Text(results[index].createdAt.toString() ?? ""),
                       );
                     },
                   );
