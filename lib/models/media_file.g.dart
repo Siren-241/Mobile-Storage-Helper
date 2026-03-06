@@ -126,6 +126,71 @@ const MediaFileSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'fileName': IndexSchema(
+      id: -6213672517780651480,
+      name: r'fileName',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'fileName',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'mimeType': IndexSchema(
+      id: -4182539830368048718,
+      name: r'mimeType',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'mimeType',
+          type: IndexType.value,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'createdAt': IndexSchema(
+      id: -3433535483987302584,
+      name: r'createdAt',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'createdAt',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'size': IndexSchema(
+      id: -3849508999343250072,
+      name: r'size',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'size',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'extractedText': IndexSchema(
+      id: 4357565118697273318,
+      name: r'extractedText',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'extractedText',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -344,6 +409,38 @@ extension MediaFileQueryWhereSort
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyFileName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'fileName'),
+      );
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyMimeType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'mimeType'),
+      );
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'createdAt'),
+      );
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anySize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'size'),
+      );
+    });
+  }
 }
 
 extension MediaFileQueryWhere
@@ -452,6 +549,523 @@ extension MediaFileQueryWhere
               indexName: r'assetId',
               lower: [],
               upper: [assetId],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameEqualTo(
+      String fileName) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'fileName',
+        value: [fileName],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameNotEqualTo(
+      String fileName) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'fileName',
+              lower: [],
+              upper: [fileName],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'fileName',
+              lower: [fileName],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'fileName',
+              lower: [fileName],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'fileName',
+              lower: [],
+              upper: [fileName],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameGreaterThan(
+    String fileName, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'fileName',
+        lower: [fileName],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameLessThan(
+    String fileName, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'fileName',
+        lower: [],
+        upper: [fileName],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameBetween(
+    String lowerFileName,
+    String upperFileName, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'fileName',
+        lower: [lowerFileName],
+        includeLower: includeLower,
+        upper: [upperFileName],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameStartsWith(
+      String FileNamePrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'fileName',
+        lower: [FileNamePrefix],
+        upper: ['$FileNamePrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'fileName',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'fileName',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'fileName',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'fileName',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'fileName',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeEqualTo(
+      String mimeType) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'mimeType',
+        value: [mimeType],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeNotEqualTo(
+      String mimeType) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mimeType',
+              lower: [],
+              upper: [mimeType],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mimeType',
+              lower: [mimeType],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mimeType',
+              lower: [mimeType],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'mimeType',
+              lower: [],
+              upper: [mimeType],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeGreaterThan(
+    String mimeType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'mimeType',
+        lower: [mimeType],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeLessThan(
+    String mimeType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'mimeType',
+        lower: [],
+        upper: [mimeType],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeBetween(
+    String lowerMimeType,
+    String upperMimeType, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'mimeType',
+        lower: [lowerMimeType],
+        includeLower: includeLower,
+        upper: [upperMimeType],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeStartsWith(
+      String MimeTypePrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'mimeType',
+        lower: [MimeTypePrefix],
+        upper: ['$MimeTypePrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'mimeType',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'mimeType',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'mimeType',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'mimeType',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'mimeType',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtEqualTo(
+      DateTime createdAt) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'createdAt',
+        value: [createdAt],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtNotEqualTo(
+      DateTime createdAt) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'createdAt',
+              lower: [],
+              upper: [createdAt],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'createdAt',
+              lower: [createdAt],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'createdAt',
+              lower: [createdAt],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'createdAt',
+              lower: [],
+              upper: [createdAt],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtGreaterThan(
+    DateTime createdAt, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'createdAt',
+        lower: [createdAt],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtLessThan(
+    DateTime createdAt, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'createdAt',
+        lower: [],
+        upper: [createdAt],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtBetween(
+    DateTime lowerCreatedAt,
+    DateTime upperCreatedAt, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'createdAt',
+        lower: [lowerCreatedAt],
+        includeLower: includeLower,
+        upper: [upperCreatedAt],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeEqualTo(int size) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'size',
+        value: [size],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeNotEqualTo(
+      int size) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'size',
+              lower: [],
+              upper: [size],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'size',
+              lower: [size],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'size',
+              lower: [size],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'size',
+              lower: [],
+              upper: [size],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeGreaterThan(
+    int size, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'size',
+        lower: [size],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeLessThan(
+    int size, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'size',
+        lower: [],
+        upper: [size],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeBetween(
+    int lowerSize,
+    int upperSize, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'size',
+        lower: [lowerSize],
+        includeLower: includeLower,
+        upper: [upperSize],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'extractedText',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause>
+      extractedTextIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'extractedText',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextEqualTo(
+      String? extractedText) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'extractedText',
+        value: [extractedText],
+      ));
+    });
+  }
+
+  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextNotEqualTo(
+      String? extractedText) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'extractedText',
+              lower: [],
+              upper: [extractedText],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'extractedText',
+              lower: [extractedText],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'extractedText',
+              lower: [extractedText],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'extractedText',
+              lower: [],
+              upper: [extractedText],
               includeUpper: false,
             ));
       }

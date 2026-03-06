@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:storage_query_engine/services/Enricher.dart';
+import 'package:storage_query_engine/services/SearchEngine.dart';
 
 import 'models/media_file.dart';
 import 'services/MediaIndexer.dart';
 
 late Isar isar;
+late SearchEngine searchEngine;
+Future<List<MediaFile>>? searchFuture;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -102,13 +105,78 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Storage Helper")),
       body: Center (
-        child: Text(
-          status == "Done"
-              ? "Indexed $newlyIndexedMediaCount more media\n$totalInDB media in DB"
-              : status,
+        child: Column (
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () async {
+                  // for (final asset in results){
+                  //   print(asset.fileName);
+                  //   print(asset.path);
+                  //   print("\n");
+                  // }
 
-          style: const TextStyle(fontSize: 22),
-          textAlign: TextAlign.center,
+                  setState(() {
+                    searchFuture = searchEngine.searchByText("VIT");
+                  });
+                }
+                , child: Text("Search")
+            ),
+            TextField(
+              onSubmitted: (value) {
+                setState(() {
+                  // searchFuture = searchEngine.searchByText(value);
+                });
+              },
+            ),
+            (status != "Done")
+                ?
+            Text(
+              "Indexed $newlyIndexedMediaCount more media\n$totalInDB media in DB",
+              style: const TextStyle(fontSize: 22),
+              textAlign: TextAlign.center,
+            )
+                :
+            Expanded(
+              child: FutureBuilder<List<MediaFile>> (
+                future: searchFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text("No results"));
+                  }
+
+                  final results = snapshot.data!;
+
+                  return ListView.builder(
+                    itemCount: results.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(results[index].fileName),
+                        subtitle: Text(results[index].path ?? ""),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            // ListView.builder(
+            //     itemCount: searchResults.length,
+            //     itemBuilder: (context, index) {
+            //       final media = searchResults[index];
+            //
+            //       return ListTile(
+            //         title: Text(media.fileName),
+            //         subtitle: Text(media.path ?? ""),
+            //       );
+            //     }
+            // ),
+          ],
         )
       )
     );

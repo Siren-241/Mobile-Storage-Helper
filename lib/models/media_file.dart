@@ -8,12 +8,24 @@ class MediaFile {
 
   @Index(unique: true, replace: true)
   late String   assetId;
+
+  @Index(type: IndexType.value)
   late String   fileName;
-  late String?  path;
-  late DateTime createdAt;
-  late DateTime lastModified;
+
+  @Index(type: IndexType.value)
   late String   mimeType;
+
+  @Index(type: IndexType.value)
+  late DateTime createdAt;
+
+  @Index(type: IndexType.value)
   late int      size;
+
+  @Index(type: IndexType.hash, caseSensitive: false)
+  String?       extractedText;
+
+  late DateTime lastModified;
+  late String?  path;
   late String   albumName;
   int?          duration;
   int?          width;
@@ -24,7 +36,6 @@ class MediaFile {
   double?       latitude;
   double?       longitude;
 
-  String?       extractedText;
   bool          metadataProcessed = false;
   bool          metadataFailed = false;
 }
