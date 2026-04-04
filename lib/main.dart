@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:storage_query_engine/FileCard.dart';
 import 'package:storage_query_engine/services/Enricher.dart';
 import 'package:storage_query_engine/services/SearchEngine.dart';
 import 'package:open_filex/open_filex.dart';
@@ -101,21 +102,55 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
     await enrichUnprocessedMedia(isar: isar);
   }
 
-  Icon _getIcon(String mime) {
-    if (mime.startsWith("image")) return Icon(Icons.image);
-    if (mime.startsWith("video")) return Icon(Icons.video_file);
-    if (mime == "application/pdf") return Icon(Icons.picture_as_pdf);
+  IconData _getIcon(String mime) {
+    if (mime.startsWith("image")) return Icons.image;
+    if (mime.startsWith("video")) return Icons.video_file;
+    if (mime == "application/pdf") return Icons.picture_as_pdf;
 
-    return Icon(Icons.insert_drive_file);
+    return Icons.insert_drive_file;
   }
 
-  void _performSearch() {
+  // void _performSearch() {
+  //   final query = controller.text;
+  //   if (query.isEmpty) return;
+  //   setState(() {
+  //     searchFuture = searchEngine.searchByText(query);
+  //   });
+  // }
+
+  void _smartSearch() async {
     final query = controller.text;
+
     if (query.isEmpty) return;
+
+    // Type detection
+    if (query.contains("pdf")) {
+      setState(() {
+        searchFuture = searchEngine.searchByType("application/pdf");
+      });
+      return;
+    }
+
+    // Year detection
+    final yearMatch = RegExp(r'\b(20\d{2})\b').firstMatch(query);
+    if (yearMatch != null) {
+      final year = int.parse(yearMatch.group(0)!);
+      setState(() {
+        searchFuture = searchEngine.searchByDate(
+          start: DateTime(year, 1, 1),
+          end: DateTime(year, 12, 31),
+        );
+      });
+      return;
+    }
+
+    // Default text search
     setState(() {
       searchFuture = searchEngine.searchByText(query);
     });
+    return;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,40 +167,58 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: Column(
                 children: [
-                  TextField(
-                    onSubmitted: (value) {
-                      _performSearch();
-                    },
-                    controller: controller,
-                    decoration: InputDecoration(
-                      hint: Text("Search for media"),
-                      prefixIcon: Icon(Icons.search)
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: TextField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(top: 12), // TODO: This is a hardcoded value, fix before release
+                          hintText: "Search your files...",
+                          prefixIcon: Icon(Icons.search),
+                          border: InputBorder.none,
+                        ),
+                        onSubmitted: (_) => _smartSearch(),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () async {
-                        _performSearch();
+                        _smartSearch();
                       },
                       child: Text("Search")
                   ),
                 ],
               ),
             ),
-            (status != "Done")
-                ?
-            Text(
-              "Indexed $newlyIndexedMediaCount more media\n$totalInDB media in DB",
-              style: const TextStyle(fontSize: 22),
-              textAlign: TextAlign.center,
-            )
-                :
             Expanded(
               child: FutureBuilder<List<MediaFile>> (
                 future: searchFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return ListView.builder(
+                      itemCount: 6,
+                      itemBuilder: (_, __) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white54,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              color: Colors.black.withValues(alpha: 0.05),
+                            )
+                          ],
+                        ),
+                        child: SizedBox(height: 41,),
+                      ),
+                    );
                   }
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
@@ -180,26 +233,14 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
                     itemCount: results.length,
                     itemBuilder: (context, index) {
                       final file = results[index];
-                      return ListTile(
-                        leading: _getIcon(file.mimeType),
-
-                        title: Text(file.fileName),
-
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(file.mimeType),
-                            Text("Created at: ${file.createdAt.toString()}"),
-                          ],
-                        ),
-
+                      return GestureDetector(
                         onTap: () async {
                           if (file.path != null){
                             await OpenFilex.open(file.path!);
                           }
                         },
+                        child: FileCard(file: file),
                       );
-
                     },
                   );
                 },

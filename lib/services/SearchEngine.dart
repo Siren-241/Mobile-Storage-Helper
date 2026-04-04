@@ -22,6 +22,19 @@ class SearchEngine {
     return results;
   }
 
+  Future<List<MediaFile>> searchByType(String? text) async {
+    var query = isar.mediaFiles.filter();
+    late List<MediaFile> results = [];
+
+    if (text != null && text.isNotEmpty) {
+      results = await query.group((query) => query
+          .mimeTypeContains(text, caseSensitive: false))
+        .findAll();
+    }
+
+    return results;
+  }
+
   Future<List<MediaFile>> searchByDate({
     DateTime? start,
     DateTime? end
