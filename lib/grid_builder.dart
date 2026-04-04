@@ -3,6 +3,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:storage_query_engine/utils.dart';
 import 'models/media_file.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 Widget buildGrid(List<MediaFile> results) {
   return GridView.builder(
@@ -72,6 +73,7 @@ class _GridCard extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: Colors.white38,
+              child: Icon(getIcon(file.mimeType)),
             )
           );
         }
@@ -102,18 +104,16 @@ class _GridCard extends StatelessWidget {
 
         // Actual Payload
         if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-          if (file.mimeType.contains("image")) {
-            return ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(16)
-              ),
-              child: Image.memory(
-                snapshot.data!,
-                fit: BoxFit.cover,
-                width: double.infinity
-              ),
-            );
-          }
+          return ClipRRect(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(16)
+            ),
+            child: Image.memory(
+              snapshot.data!,
+              fit: BoxFit.cover,
+              width: double.infinity
+            ),
+          );
         }
 
         // Fallback
@@ -129,10 +129,20 @@ class _GridCard extends StatelessWidget {
   }
 
   Future _loadThumbnail() async {
-    final asset = await AssetEntity.fromId(file.assetId);
-    return await asset?.thumbnailDataWithSize(
-      const ThumbnailSize(300, 300)
-    );
+    if (file.mimeType.contains("image")){
+      final asset = await AssetEntity.fromId(file.assetId);
+      return await asset?.thumbnailDataWithSize(
+        const ThumbnailSize(300, 300)
+      );
+    }
+    if (file.mimeType.contains("video")) {
+      return await VideoThumbnail.thumbnailData(
+        video: file.path!,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 300,
+        quality: 75,
+      );
+    }
   }
 
 }
