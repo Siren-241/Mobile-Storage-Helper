@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:open_filex/open_filex.dart';
 
 import 'grid_builder.dart';
 import 'models/media_file.dart';
@@ -59,7 +58,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
 
   TextEditingController controller = TextEditingController();
 
-  ViewMode viewMode = ViewMode.list;
+  ViewMode viewMode = ViewMode.grid;
 
   @override
   void initState() {
@@ -212,7 +211,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return ListView.builder(
                       itemCount: 6,
-                      itemBuilder: (_, __) => Container(
+                      itemBuilder: (_, _) => Container(
                         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(

@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:storage_query_engine/utils.dart';
 import 'models/media_file.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+
+final Map<String, Uint8List?> _thumbnailCache = {};
 
 Widget buildGrid(List<MediaFile> results) {
   return GridView.builder(
@@ -128,21 +132,39 @@ class _GridCard extends StatelessWidget {
     );
   }
 
-  Future _loadThumbnail() async {
+  Future<Uint8List?> _loadThumbnail() async {
+    if (file.path == null) return null;
+
+    // Cache-Hit logic
+    if (_thumbnailCache.containsKey(file.assetId)) {
+      return _thumbnailCache[file.assetId];
+    }
+
+    // Cache-Miss logic
     if (file.mimeType.contains("image")){
       final asset = await AssetEntity.fromId(file.assetId);
-      return await asset?.thumbnailDataWithSize(
-        const ThumbnailSize(300, 300)
+
+      // Add to cache
+      final data = await asset?.thumbnailDataWithSize(
+          const ThumbnailSize(300, 300)
       );
+      _thumbnailCache[file.assetId] = data;
+
+      return data;
     }
     if (file.mimeType.contains("video")) {
-      return await VideoThumbnail.thumbnailData(
+      // Add to cache
+      final data = await VideoThumbnail.thumbnailData(
         video: file.path!,
         imageFormat: ImageFormat.JPEG,
         maxWidth: 300,
         quality: 75,
       );
+      _thumbnailCache[file.assetId] = data;
+
+      return data;
     }
+    return null;
   }
 
 }
