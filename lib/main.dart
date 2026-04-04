@@ -49,6 +49,8 @@ class MediaCounterScreen extends StatefulWidget {
 }
 
 
+enum ViewMode { list, grid }
+
 class _MediaCounterScreenState extends State<MediaCounterScreen> {
   int newlyIndexedMediaCount = 0;
   int totalInDB = 0;
@@ -56,6 +58,8 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
   String status = "Requesting Permissions...";
 
   TextEditingController controller = TextEditingController();
+
+  ViewMode viewMode = ViewMode.list;
 
   @override
   void initState() {
@@ -143,7 +147,23 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
       appBar: AppBar(
         title: const Text("Storage Helper"),
         elevation: 4,
-
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              viewMode == ViewMode.list
+                  ? Icons.grid_view
+                  : Icons.list
+            ),
+            onPressed: () {
+              setState(() {
+                viewMode = viewMode == ViewMode.list
+                    ? ViewMode.grid
+                    : ViewMode.list;
+              });
+            },
+          )
+        ],
       ),
       body: Center (
         child: Column (
@@ -222,11 +242,9 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
 
                   final results = snapshot.data!;
 
-                  // return viewMode == ViewMode.list
-                  //   ? _buildList(results)
-                  //   : _buildGrid(results);
-
-                  return buildGrid(results);
+                  return viewMode == ViewMode.list
+                    ? buildList(results)
+                    : buildGrid(results);
                 },
               ),
             ),
