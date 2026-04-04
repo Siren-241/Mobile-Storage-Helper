@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:storage_query_engine/FileCard.dart';
-import 'package:storage_query_engine/services/Enricher.dart';
-import 'package:storage_query_engine/services/SearchEngine.dart';
 import 'package:open_filex/open_filex.dart';
 
+import 'grid_builder.dart';
 import 'models/media_file.dart';
 import 'services/MediaIndexer.dart';
+
+import 'package:storage_query_engine/list_builder.dart';
+import 'package:storage_query_engine/services/Enricher.dart';
+import 'package:storage_query_engine/services/SearchEngine.dart';
 
 late Isar isar;
 late SearchEngine searchEngine;
@@ -102,22 +104,6 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
     await enrichUnprocessedMedia(isar: isar);
   }
 
-  IconData _getIcon(String mime) {
-    if (mime.startsWith("image")) return Icons.image;
-    if (mime.startsWith("video")) return Icons.video_file;
-    if (mime == "application/pdf") return Icons.picture_as_pdf;
-
-    return Icons.insert_drive_file;
-  }
-
-  // void _performSearch() {
-  //   final query = controller.text;
-  //   if (query.isEmpty) return;
-  //   setState(() {
-  //     searchFuture = searchEngine.searchByText(query);
-  //   });
-  // }
-
   void _smartSearch() async {
     final query = controller.text;
 
@@ -200,6 +186,9 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
               child: FutureBuilder<List<MediaFile>> (
                 future: searchFuture,
                 builder: (context, snapshot) {
+
+                  // TODO: Make buildPlaceholderList and buildPlaceholderGrid members of the builders
+                  // Loading state
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return ListView.builder(
                       itemCount: 6,
@@ -220,29 +209,24 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
                       ),
                     );
                   }
+
+                  // Error state
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   }
+
+                  // Empty data state
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(child: Text("No results"));
                   }
 
                   final results = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: results.length,
-                    itemBuilder: (context, index) {
-                      final file = results[index];
-                      return GestureDetector(
-                        onTap: () async {
-                          if (file.path != null){
-                            await OpenFilex.open(file.path!);
-                          }
-                        },
-                        child: FileCard(file: file),
-                      );
-                    },
-                  );
+                  // return viewMode == ViewMode.list
+                  //   ? _buildList(results)
+                  //   : _buildGrid(results);
+
+                  return buildGrid(results);
                 },
               ),
             ),
