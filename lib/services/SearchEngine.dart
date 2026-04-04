@@ -16,7 +16,7 @@ class SearchEngine {
            .extractedTextContains(text, caseSensitive: false)
            .or()
            .albumNameContains(text, caseSensitive: false))
-          .findAll();
+         .findAll();
     }
 
     return results;
@@ -34,7 +34,7 @@ class SearchEngine {
           .createdAtLessThan(end)
           .and()
           .createdAtGreaterThan(start))
-          .findAll();
+        .findAll();
     } else if (start != null ) {
       results = await query.group((q) => q
           .createdAtGreaterThan(start))
