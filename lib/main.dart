@@ -9,6 +9,7 @@ import 'services/MediaIndexer.dart';
 import 'package:storage_query_engine/list_builder.dart';
 import 'package:storage_query_engine/services/Enricher.dart';
 import 'package:storage_query_engine/services/SearchEngine.dart';
+import 'package:storage_query_engine/search_bar.dart';
 
 late Isar isar;
 late SearchEngine searchEngine;
@@ -172,25 +173,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
               padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: TextField(
-                        controller: controller,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(top: 12), // TODO: This is a hardcoded value, fix before release
-                          hintText: "Search your files...",
-                          prefixIcon: Icon(Icons.search),
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (_) => _smartSearch(),
-                      ),
-                    ),
-                  ),
+                  MySearchBar(controller, _smartSearch,),
                   SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () async {
