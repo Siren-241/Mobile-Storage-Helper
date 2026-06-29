@@ -5,7 +5,7 @@ import 'DBEnrichment/MediaEnricher.dart';
 import 'DBEnrichment/PDFEnricher.dart';
 
 Future<void> enrichUnprocessedMedia({required Isar isar}) async {
-  const batchSize = 20;
+  const batchSize = 10;
   int enriched = 0;
 
   while(true) {
@@ -20,8 +20,15 @@ Future<void> enrichUnprocessedMedia({required Isar isar}) async {
 
     for (MediaFile media in unprocessed) {
       try {
-        if (media.mimeType.startsWith("image") ||
-            media.mimeType.startsWith("video")) {
+        if (media.mimeType.startsWith("image")) {
+          await processMediaMetadata(media);
+
+          // Label enrichment logic; TODO: Isolate into separate file in the future
+//           try {
+            // final labels = await imageLabler
+//           }
+          enriched++;
+        } else if (media.mimeType.startsWith("video")) {
           await processMediaMetadata(media);
           enriched++;
         } else if (media.mimeType == "application/pdf") {

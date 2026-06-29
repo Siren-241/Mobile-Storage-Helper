@@ -16,7 +16,7 @@ Widget MySearchBar(controller, callback) {
             prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
           ),
-          onSubmitted: (_) => callback(),
+          onSubmitted: (_) async => await callback(),
         ),
       ),
     );
