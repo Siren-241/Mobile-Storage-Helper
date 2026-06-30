@@ -12,37 +12,22 @@ class MediaRepository {
   // CREATE
 
   Future<int> insert(MediaItem mediaFile) async {
-    // TODO: check if already exists
-    // String assetId = mediaFile.assetId;
-    
-    try {
-      late int id;
-      await isar.writeTxn(() async {
-        id = await isar.mediaItems.put(mediaFile);
-      });
+    late int id;
+    await isar.writeTxn(() async {
+      id = await isar.mediaItems.put(mediaFile);
+    });
 
-      return id;
-    } catch(error) {
-      debugPrint("[media_repository] An error occurred:");
-      debugPrint(error as String?);
-      return -1;
-    }
+    return id;
   }
 
   Future<List<int>> insertAll(List<MediaItem> mediaItems) async {
-    try {
-      late List<int> ids;
+    late List<int> ids;
 
-      await isar.writeTxn(() async {
-        ids = await isar.mediaItems.putAll(mediaItems);
-      });
+    await isar.writeTxn(() async {
+      ids = await isar.mediaItems.putAll(mediaItems);
+    });
 
-      return ids;
-    } catch (error) {
-      debugPrint("[media_repository] An error occurred:");
-      debugPrint(error as String?);
-      return [];
-    }
+    return ids;
   }
 
   // READ

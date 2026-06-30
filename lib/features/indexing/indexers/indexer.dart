@@ -1,3 +1,7 @@
+import 'package:storage_query_engine/services/db_service.dart';
+
 abstract class Indexer {
-  Future<void> scan(Map<String, DateTime> currentEntries);
+  late DbService dbService;
+
+  Future<Set<String>> scan(Map<String, DateTime> currentEntries);
 }
