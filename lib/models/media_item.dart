@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-part 'media_file.g.dart';
+part 'media_item.g.dart';
 
 @collection
-class MediaFile {
+class MediaItem {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true, replace: true)

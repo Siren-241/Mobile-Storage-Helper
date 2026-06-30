@@ -1,9 +1,9 @@
 import 'package:exif/exif.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'dart:io';
-import 'package:storage_query_engine/models/media_file.dart';
+import 'package:storage_query_engine/models/media_item.dart';
 
-Future<void> processMediaMetadata(MediaFile media) async {
+Future<void> processMediaMetadata(MediaItem media) async {
   try {
     if (media.path == null) {
       final asset = await AssetEntity.fromId(media.assetId);

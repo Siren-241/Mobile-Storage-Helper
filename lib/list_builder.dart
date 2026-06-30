@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:storage_query_engine/utils.dart';
-import 'models/media_file.dart';
+import 'models/media_item.dart';
 import 'package:open_filex/open_filex.dart';
 
-Widget buildList(List<MediaFile> results) {
+Widget buildList(List<MediaItem> results) {
   return ListView.builder(
     itemCount: results.length,
     itemBuilder: (context, index) {
@@ -20,7 +20,7 @@ Widget buildList(List<MediaFile> results) {
 }
 
 class _FileCard extends StatelessWidget {
-  final MediaFile file;
+  final MediaItem file;
 
   const _FileCard({required this.file});
 

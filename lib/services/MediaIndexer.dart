@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:isar/isar.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../models/media_file.dart';
+import '../models/media_item.dart';
 
 class MediaIndexer {
   late Isar isar;
@@ -21,7 +21,7 @@ class MediaIndexer {
   }
 
   Future<void> _populateExistingFiles() async {
-    final existingFiles = await isar.mediaFiles
+    final existingFiles = await isar.mediaItems
         .where()
         .findAll();
     _existingFilesMap = {
@@ -56,7 +56,7 @@ class MediaIndexer {
       while (page * pageSize < assetCount) {
         final assets = await album.getAssetListPaged(page: page, size: pageSize);
 
-        List<MediaFile> newMediaFiles = [];
+        List<MediaItem> newmediaItems = [];
 
         for (final asset in assets) {
           // Append asset id to scanned ids to not delete it in _syncDeletions
@@ -68,7 +68,7 @@ class MediaIndexer {
             continue; // File already exists in DB. Don't add
           }
 
-          final media = MediaFile()
+          final media = MediaItem()
             ..assetId = asset.id
             ..fileName = asset.title ?? "" //file.path.split('/').last
             ..path = null //file.path
@@ -81,22 +81,22 @@ class MediaIndexer {
             ..height = asset.height
             ..duration = asset.type == AssetType.video ? asset.duration : null;
 
-          newMediaFiles.add(media);
+          newmediaItems.add(media);
         }
-        if (newMediaFiles.isNotEmpty) {
+        if (newmediaItems.isNotEmpty) {
           await isar.writeTxn(() async {
-            await isar.mediaFiles.putAll(newMediaFiles);
-            for (var media in newMediaFiles) {
+            await isar.mediaItems.putAll(newmediaItems);
+            for (var media in newmediaItems) {
               _existingFilesMap[media.assetId] = media.lastModified;
             }
           });
-          totalIndexed += newMediaFiles.length;
+          totalIndexed += newmediaItems.length;
         }
         page++;
       }
     }
 
-    // totalInDB = await isar.mediaFiles.count();
+    // totalInDB = await isar.mediaItems.count();
     onStatusUpdate("Done Indexing Media");
     return totalIndexed;
   }
@@ -122,7 +122,7 @@ class MediaIndexer {
       '/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Documents'
     ];
 
-    List<MediaFile> newPDFs = [];
+    List<MediaItem> newPDFs = [];
 
     for (String path in targetPaths){
       final dir = Directory(path);
@@ -143,7 +143,7 @@ class MediaIndexer {
               continue; // File already exists in DB. Don't add
             }
 
-            final media = MediaFile()
+            final media = MediaItem()
               ..assetId = entity.path
               ..fileName = entity.path.split('/').last
               ..path = entity.path
@@ -165,7 +165,7 @@ class MediaIndexer {
 
     if (newPDFs.isNotEmpty) {
       await isar.writeTxn(() async {
-        await isar.mediaFiles.putAll(newPDFs);
+        await isar.mediaItems.putAll(newPDFs);
         for (var media in newPDFs) {
           _existingFilesMap[media.assetId] = media.lastModified;
         }
@@ -183,9 +183,10 @@ class MediaIndexer {
 
     await isar.writeTxn(() async {
       // Try later for optimization
-      await isar.mediaFiles.deleteAllByAssetId(idsToDelete);
+      // returns number of objects deleted
+      await isar.mediaItems.deleteAllByAssetId(idsToDelete);
       for (final id in idsToDelete) {
-        // await isar.mediaFiles
+        // await isar.mediaItems
         //     .filter()
         //     .assetIdEqualTo(id)
         //     .deleteFirst();
@@ -205,5 +206,8 @@ class MediaIndexer {
 
     return temp;
   }
+
+  // kept for no errors
+  void startScan(){}
 
 }

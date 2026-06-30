@@ -3,13 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:storage_query_engine/utils.dart';
-import 'models/media_file.dart';
+import 'models/media_item.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 final Map<String, Uint8List?> _thumbnailCache = {};
 
-Widget buildGrid(List<MediaFile> results) {
+Widget buildGrid(List<MediaItem> results) {
   return GridView.builder(
     itemCount: results.length,
     padding: const EdgeInsets.all(8),
@@ -33,7 +33,7 @@ Widget buildGrid(List<MediaFile> results) {
 }
 
 class _GridCard extends StatelessWidget {
-  final MediaFile file;
+  final MediaItem file;
 
   const _GridCard({required this.file});
 

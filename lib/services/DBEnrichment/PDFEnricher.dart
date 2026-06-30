@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:storage_query_engine/models/media_file.dart';
+import 'package:storage_query_engine/models/media_item.dart';
 
-Future<void> processPDFMetadata(MediaFile media) async {
+Future<void> processPDFMetadata(MediaItem media) async {
   try {
     if (media.path == null) {
       final asset = await AssetEntity.fromId(media.assetId);

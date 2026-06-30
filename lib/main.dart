@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'grid_builder.dart';
-import 'models/media_file.dart';
+import 'models/media_item.dart';
 import 'services/MediaIndexer.dart';
 
 import 'package:storage_query_engine/list_builder.dart';
@@ -13,14 +13,14 @@ import 'package:storage_query_engine/search_bar.dart';
 
 late Isar isar;
 late SearchEngine searchEngine;
-Future<List<MediaFile>>? searchFuture;
+Future<List<MediaItem>>? searchFuture;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final dir = await getApplicationDocumentsDirectory();
   isar = await Isar.open(
-    [MediaFileSchema],
+    [MediaItemSchema],
     directory: dir.path,
     inspector: true
   );
@@ -82,7 +82,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
 
     // Refactor below names
     newlyIndexedMediaCount += await indexer.runFullIndex();
-    final mediaCount = await isar.mediaFiles.count();
+    final mediaCount = await isar.mediaItems.count();
 
     if (mounted) {
       setState(() {
@@ -99,7 +99,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
   }
 
   Future<void> _startBackgroundEnrichment() async {
-    final count = await isar.mediaFiles
+    final count = await isar.mediaItems
         .filter()
         .metadataProcessedEqualTo(false)
         .count();
@@ -185,7 +185,7 @@ class _MediaCounterScreenState extends State<MediaCounterScreen> {
               ),
             ),
             Expanded(
-              child: FutureBuilder<List<MediaFile>> (
+              child: FutureBuilder<List<MediaItem>> (
                 future: searchFuture,
                 builder: (context, snapshot) {
 

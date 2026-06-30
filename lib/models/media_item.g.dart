@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'media_file.dart';
+part of 'media_item.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,13 @@ part of 'media_file.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetMediaFileCollection on Isar {
-  IsarCollection<MediaFile> get mediaFiles => this.collection();
+extension GetMediaItemCollection on Isar {
+  IsarCollection<MediaItem> get mediaItems => this.collection();
 }
 
-const MediaFileSchema = CollectionSchema(
-  name: r'MediaFile',
-  id: 1958579357081594111,
+const MediaItemSchema = CollectionSchema(
+  name: r'MediaItem',
+  id: 3893864289923902342,
   properties: {
     r'albumName': PropertySchema(
       id: 0,
@@ -108,10 +108,10 @@ const MediaFileSchema = CollectionSchema(
       type: IsarType.long,
     )
   },
-  estimateSize: _mediaFileEstimateSize,
-  serialize: _mediaFileSerialize,
-  deserialize: _mediaFileDeserialize,
-  deserializeProp: _mediaFileDeserializeProp,
+  estimateSize: _mediaItemEstimateSize,
+  serialize: _mediaItemSerialize,
+  deserialize: _mediaItemDeserialize,
+  deserializeProp: _mediaItemDeserializeProp,
   idName: r'id',
   indexes: {
     r'assetId': IndexSchema(
@@ -188,21 +188,21 @@ const MediaFileSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'extractedText',
           type: IndexType.hash,
-          caseSensitive: true,
+          caseSensitive: false,
         )
       ],
     )
   },
   links: {},
   embeddedSchemas: {},
-  getId: _mediaFileGetId,
-  getLinks: _mediaFileGetLinks,
-  attach: _mediaFileAttach,
+  getId: _mediaItemGetId,
+  getLinks: _mediaItemGetLinks,
+  attach: _mediaItemAttach,
   version: '3.1.0+1',
 );
 
-int _mediaFileEstimateSize(
-  MediaFile object,
+int _mediaItemEstimateSize(
+  MediaItem object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -232,8 +232,8 @@ int _mediaFileEstimateSize(
   return bytesCount;
 }
 
-void _mediaFileSerialize(
-  MediaFile object,
+void _mediaItemSerialize(
+  MediaItem object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -258,13 +258,13 @@ void _mediaFileSerialize(
   writer.writeLong(offsets[17], object.width);
 }
 
-MediaFile _mediaFileDeserialize(
+MediaItem _mediaItemDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = MediaFile();
+  final object = MediaItem();
   object.albumName = reader.readString(offsets[0]);
   object.assetId = reader.readString(offsets[1]);
   object.createdAt = reader.readDateTime(offsets[2]);
@@ -287,7 +287,7 @@ MediaFile _mediaFileDeserialize(
   return object;
 }
 
-P _mediaFileDeserializeProp<P>(
+P _mediaItemDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -335,24 +335,24 @@ P _mediaFileDeserializeProp<P>(
   }
 }
 
-Id _mediaFileGetId(MediaFile object) {
+Id _mediaItemGetId(MediaItem object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _mediaFileGetLinks(MediaFile object) {
+List<IsarLinkBase<dynamic>> _mediaItemGetLinks(MediaItem object) {
   return [];
 }
 
-void _mediaFileAttach(IsarCollection<dynamic> col, Id id, MediaFile object) {
+void _mediaItemAttach(IsarCollection<dynamic> col, Id id, MediaItem object) {
   object.id = id;
 }
 
-extension MediaFileByIndex on IsarCollection<MediaFile> {
-  Future<MediaFile?> getByAssetId(String assetId) {
+extension MediaItemByIndex on IsarCollection<MediaItem> {
+  Future<MediaItem?> getByAssetId(String assetId) {
     return getByIndex(r'assetId', [assetId]);
   }
 
-  MediaFile? getByAssetIdSync(String assetId) {
+  MediaItem? getByAssetIdSync(String assetId) {
     return getByIndexSync(r'assetId', [assetId]);
   }
 
@@ -364,12 +364,12 @@ extension MediaFileByIndex on IsarCollection<MediaFile> {
     return deleteByIndexSync(r'assetId', [assetId]);
   }
 
-  Future<List<MediaFile?>> getAllByAssetId(List<String> assetIdValues) {
+  Future<List<MediaItem?>> getAllByAssetId(List<String> assetIdValues) {
     final values = assetIdValues.map((e) => [e]).toList();
     return getAllByIndex(r'assetId', values);
   }
 
-  List<MediaFile?> getAllByAssetIdSync(List<String> assetIdValues) {
+  List<MediaItem?> getAllByAssetIdSync(List<String> assetIdValues) {
     final values = assetIdValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'assetId', values);
   }
@@ -384,33 +384,33 @@ extension MediaFileByIndex on IsarCollection<MediaFile> {
     return deleteAllByIndexSync(r'assetId', values);
   }
 
-  Future<Id> putByAssetId(MediaFile object) {
+  Future<Id> putByAssetId(MediaItem object) {
     return putByIndex(r'assetId', object);
   }
 
-  Id putByAssetIdSync(MediaFile object, {bool saveLinks = true}) {
+  Id putByAssetIdSync(MediaItem object, {bool saveLinks = true}) {
     return putByIndexSync(r'assetId', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByAssetId(List<MediaFile> objects) {
+  Future<List<Id>> putAllByAssetId(List<MediaItem> objects) {
     return putAllByIndex(r'assetId', objects);
   }
 
-  List<Id> putAllByAssetIdSync(List<MediaFile> objects,
+  List<Id> putAllByAssetIdSync(List<MediaItem> objects,
       {bool saveLinks = true}) {
     return putAllByIndexSync(r'assetId', objects, saveLinks: saveLinks);
   }
 }
 
-extension MediaFileQueryWhereSort
-    on QueryBuilder<MediaFile, MediaFile, QWhere> {
-  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyId() {
+extension MediaItemQueryWhereSort
+    on QueryBuilder<MediaItem, MediaItem, QWhere> {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyFileName() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhere> anyFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'fileName'),
@@ -418,7 +418,7 @@ extension MediaFileQueryWhereSort
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyMimeType() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhere> anyMimeType() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'mimeType'),
@@ -426,7 +426,7 @@ extension MediaFileQueryWhereSort
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anyCreatedAt() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhere> anyCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'createdAt'),
@@ -434,7 +434,7 @@ extension MediaFileQueryWhereSort
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhere> anySize() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhere> anySize() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'size'),
@@ -443,9 +443,9 @@ extension MediaFileQueryWhereSort
   }
 }
 
-extension MediaFileQueryWhere
-    on QueryBuilder<MediaFile, MediaFile, QWhereClause> {
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> idEqualTo(Id id) {
+extension MediaItemQueryWhere
+    on QueryBuilder<MediaItem, MediaItem, QWhereClause> {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -454,7 +454,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -476,7 +476,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -485,7 +485,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -494,7 +494,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> idBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -510,7 +510,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> assetIdEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> assetIdEqualTo(
       String assetId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -520,7 +520,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> assetIdNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> assetIdNotEqualTo(
       String assetId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -555,7 +555,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameEqualTo(
       String fileName) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -565,7 +565,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameNotEqualTo(
       String fileName) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -600,7 +600,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameGreaterThan(
     String fileName, {
     bool include = false,
   }) {
@@ -614,7 +614,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameLessThan(
     String fileName, {
     bool include = false,
   }) {
@@ -628,7 +628,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameBetween(
     String lowerFileName,
     String upperFileName, {
     bool includeLower = true,
@@ -645,7 +645,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameStartsWith(
       String FileNamePrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
@@ -656,7 +656,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'fileName',
@@ -665,7 +665,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> fileNameIsNotEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> fileNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -691,7 +691,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeEqualTo(
       String mimeType) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -701,7 +701,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeNotEqualTo(
       String mimeType) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -736,7 +736,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeGreaterThan(
     String mimeType, {
     bool include = false,
   }) {
@@ -750,7 +750,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeLessThan(
     String mimeType, {
     bool include = false,
   }) {
@@ -764,7 +764,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeBetween(
     String lowerMimeType,
     String upperMimeType, {
     bool includeLower = true,
@@ -781,7 +781,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeStartsWith(
       String MimeTypePrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
@@ -792,7 +792,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'mimeType',
@@ -801,7 +801,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> mimeTypeIsNotEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> mimeTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -827,7 +827,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> createdAtEqualTo(
       DateTime createdAt) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -837,7 +837,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> createdAtNotEqualTo(
       DateTime createdAt) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -872,7 +872,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> createdAtGreaterThan(
     DateTime createdAt, {
     bool include = false,
   }) {
@@ -886,7 +886,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> createdAtLessThan(
     DateTime createdAt, {
     bool include = false,
   }) {
@@ -900,7 +900,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> createdAtBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> createdAtBetween(
     DateTime lowerCreatedAt,
     DateTime upperCreatedAt, {
     bool includeLower = true,
@@ -917,7 +917,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeEqualTo(int size) {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> sizeEqualTo(int size) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'size',
@@ -926,7 +926,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> sizeNotEqualTo(
       int size) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -961,7 +961,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> sizeGreaterThan(
     int size, {
     bool include = false,
   }) {
@@ -975,7 +975,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> sizeLessThan(
     int size, {
     bool include = false,
   }) {
@@ -989,7 +989,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> sizeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> sizeBetween(
     int lowerSize,
     int upperSize, {
     bool includeLower = true,
@@ -1006,7 +1006,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> extractedTextIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'extractedText',
@@ -1015,7 +1015,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause>
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause>
       extractedTextIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
@@ -1027,7 +1027,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> extractedTextEqualTo(
       String? extractedText) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -1037,7 +1037,7 @@ extension MediaFileQueryWhere
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterWhereClause> extractedTextNotEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterWhereClause> extractedTextNotEqualTo(
       String? extractedText) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -1073,9 +1073,9 @@ extension MediaFileQueryWhere
   }
 }
 
-extension MediaFileQueryFilter
-    on QueryBuilder<MediaFile, MediaFile, QFilterCondition> {
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameEqualTo(
+extension MediaItemQueryFilter
+    on QueryBuilder<MediaItem, MediaItem, QFilterCondition> {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1088,7 +1088,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       albumNameGreaterThan(
     String value, {
     bool include = false,
@@ -1104,7 +1104,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1119,7 +1119,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1138,7 +1138,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1151,7 +1151,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1164,7 +1164,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1176,7 +1176,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1188,7 +1188,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> albumNameIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> albumNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'albumName',
@@ -1197,7 +1197,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       albumNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1207,7 +1207,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1220,7 +1220,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1235,7 +1235,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1250,7 +1250,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1269,7 +1269,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1282,7 +1282,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1295,7 +1295,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1307,7 +1307,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1319,7 +1319,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> assetIdIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> assetIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'assetId',
@@ -1328,7 +1328,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       assetIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1338,7 +1338,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> createdAtEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> createdAtEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1348,7 +1348,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       createdAtGreaterThan(
     DateTime value, {
     bool include = false,
@@ -1362,7 +1362,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> createdAtLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> createdAtLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1375,7 +1375,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> createdAtBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> createdAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -1392,7 +1392,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> durationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'duration',
@@ -1400,7 +1400,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       durationIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1409,7 +1409,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> durationEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1419,7 +1419,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> durationGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -1432,7 +1432,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> durationLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -1445,7 +1445,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> durationBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> durationBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1462,7 +1462,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'exifCamera',
@@ -1470,7 +1470,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifCameraIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1479,7 +1479,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -1492,7 +1492,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifCameraGreaterThan(
     String? value, {
     bool include = false,
@@ -1508,7 +1508,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1523,7 +1523,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1542,7 +1542,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifCameraStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1556,7 +1556,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1569,7 +1569,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1581,7 +1581,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifCameraMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifCameraMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1593,7 +1593,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifCameraIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1603,7 +1603,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifCameraIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1613,7 +1613,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'exifDate',
@@ -1621,7 +1621,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       exifDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1630,7 +1630,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifDateEqualTo(
       DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1640,7 +1640,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifDateGreaterThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -1653,7 +1653,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifDateLessThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -1666,7 +1666,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> exifDateBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> exifDateBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -1683,7 +1683,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1692,7 +1692,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1701,7 +1701,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1715,7 +1715,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextGreaterThan(
     String? value, {
     bool include = false,
@@ -1731,7 +1731,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextLessThan(
     String? value, {
     bool include = false,
@@ -1747,7 +1747,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextBetween(
     String? lower,
     String? upper, {
@@ -1767,7 +1767,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1781,7 +1781,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1795,7 +1795,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1806,7 +1806,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1817,7 +1817,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1827,7 +1827,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       extractedTextIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1837,7 +1837,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1850,7 +1850,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1865,7 +1865,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1880,7 +1880,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1899,7 +1899,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1912,7 +1912,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1925,7 +1925,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1937,7 +1937,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1949,7 +1949,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> fileNameIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> fileNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'fileName',
@@ -1958,7 +1958,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       fileNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1968,7 +1968,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'height',
@@ -1976,7 +1976,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightIsNotNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'height',
@@ -1984,7 +1984,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1994,7 +1994,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -2007,7 +2007,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -2020,7 +2020,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> heightBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> heightBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -2037,7 +2037,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2047,7 +2047,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -2060,7 +2060,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> idLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -2073,7 +2073,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> idBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -2090,7 +2090,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> lastModifiedEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> lastModifiedEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2100,7 +2100,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       lastModifiedGreaterThan(
     DateTime value, {
     bool include = false,
@@ -2114,7 +2114,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       lastModifiedLessThan(
     DateTime value, {
     bool include = false,
@@ -2128,7 +2128,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> lastModifiedBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> lastModifiedBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -2145,7 +2145,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> latitudeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'latitude',
@@ -2153,7 +2153,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       latitudeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -2162,7 +2162,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> latitudeEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -2175,7 +2175,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> latitudeGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -2190,7 +2190,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> latitudeLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -2205,7 +2205,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> latitudeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> latitudeBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -2224,7 +2224,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> longitudeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'longitude',
@@ -2232,7 +2232,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       longitudeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -2241,7 +2241,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> longitudeEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -2254,7 +2254,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       longitudeGreaterThan(
     double? value, {
     bool include = false,
@@ -2270,7 +2270,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> longitudeLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -2285,7 +2285,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> longitudeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> longitudeBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -2304,7 +2304,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       metadataFailedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2314,7 +2314,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       metadataProcessedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2324,7 +2324,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2337,7 +2337,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2352,7 +2352,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2367,7 +2367,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -2386,7 +2386,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2399,7 +2399,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2412,7 +2412,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2424,7 +2424,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2436,7 +2436,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> mimeTypeIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> mimeTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'mimeType',
@@ -2445,7 +2445,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition>
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition>
       mimeTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -2455,7 +2455,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'path',
@@ -2463,7 +2463,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathIsNotNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'path',
@@ -2471,7 +2471,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2484,7 +2484,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2499,7 +2499,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2514,7 +2514,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2533,7 +2533,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathStartsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2546,7 +2546,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathEndsWith(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2559,7 +2559,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathContains(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2571,7 +2571,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathMatches(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2583,7 +2583,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathIsEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'path',
@@ -2592,7 +2592,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> pathIsNotEmpty() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> pathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'path',
@@ -2601,7 +2601,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> sizeEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> sizeEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2611,7 +2611,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> sizeGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> sizeGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -2624,7 +2624,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> sizeLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> sizeLessThan(
     int value, {
     bool include = false,
   }) {
@@ -2637,7 +2637,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> sizeBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> sizeBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -2654,7 +2654,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthIsNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'width',
@@ -2662,7 +2662,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthIsNotNull() {
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'width',
@@ -2670,7 +2670,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthEqualTo(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2680,7 +2680,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthGreaterThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -2693,7 +2693,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthLessThan(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -2706,7 +2706,7 @@ extension MediaFileQueryFilter
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterFilterCondition> widthBetween(
+  QueryBuilder<MediaItem, MediaItem, QAfterFilterCondition> widthBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -2724,505 +2724,505 @@ extension MediaFileQueryFilter
   }
 }
 
-extension MediaFileQueryObject
-    on QueryBuilder<MediaFile, MediaFile, QFilterCondition> {}
+extension MediaItemQueryObject
+    on QueryBuilder<MediaItem, MediaItem, QFilterCondition> {}
 
-extension MediaFileQueryLinks
-    on QueryBuilder<MediaFile, MediaFile, QFilterCondition> {}
+extension MediaItemQueryLinks
+    on QueryBuilder<MediaItem, MediaItem, QFilterCondition> {}
 
-extension MediaFileQuerySortBy on QueryBuilder<MediaFile, MediaFile, QSortBy> {
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByAlbumName() {
+extension MediaItemQuerySortBy on QueryBuilder<MediaItem, MediaItem, QSortBy> {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByAlbumName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'albumName', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByAlbumNameDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByAlbumNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'albumName', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByAssetId() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByAssetId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assetId', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByAssetIdDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByAssetIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assetId', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByCreatedAt() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByCreatedAtDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByDuration() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByDurationDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByDurationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifCamera() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExifCamera() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifCamera', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifCameraDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExifCameraDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifCamera', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifDate() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExifDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifDate', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExifDateDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExifDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifDate', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExtractedText() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExtractedText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'extractedText', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByExtractedTextDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByExtractedTextDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'extractedText', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByFileName() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByFileNameDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByHeight() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByHeightDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByHeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLastModified() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLastModifiedDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLatitude() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLatitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'latitude', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLatitudeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLatitudeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'latitude', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLongitude() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLongitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'longitude', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByLongitudeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByLongitudeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'longitude', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataFailed() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByMetadataFailed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataFailed', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataFailedDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByMetadataFailedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataFailed', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMetadataProcessed() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByMetadataProcessed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataProcessed', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy>
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy>
       sortByMetadataProcessedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataProcessed', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMimeType() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByMimeType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByMimeTypeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByMimeTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByPath() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByPath() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'path', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByPathDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByPathDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'path', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortBySize() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortBySize() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'size', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortBySizeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortBySizeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'size', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByWidth() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByWidth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'width', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> sortByWidthDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> sortByWidthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'width', Sort.desc);
     });
   }
 }
 
-extension MediaFileQuerySortThenBy
-    on QueryBuilder<MediaFile, MediaFile, QSortThenBy> {
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByAlbumName() {
+extension MediaItemQuerySortThenBy
+    on QueryBuilder<MediaItem, MediaItem, QSortThenBy> {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByAlbumName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'albumName', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByAlbumNameDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByAlbumNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'albumName', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByAssetId() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByAssetId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assetId', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByAssetIdDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByAssetIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assetId', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByCreatedAt() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByCreatedAtDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByDuration() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByDurationDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByDurationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifCamera() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExifCamera() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifCamera', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifCameraDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExifCameraDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifCamera', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifDate() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExifDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifDate', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExifDateDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExifDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exifDate', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExtractedText() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExtractedText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'extractedText', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByExtractedTextDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByExtractedTextDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'extractedText', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByFileName() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByFileName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByFileNameDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByFileNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'fileName', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByHeight() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByHeightDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByHeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenById() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLastModified() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLastModifiedDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLastModifiedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastModified', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLatitude() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLatitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'latitude', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLatitudeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLatitudeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'latitude', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLongitude() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLongitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'longitude', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByLongitudeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByLongitudeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'longitude', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataFailed() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByMetadataFailed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataFailed', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataFailedDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByMetadataFailedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataFailed', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMetadataProcessed() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByMetadataProcessed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataProcessed', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy>
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy>
       thenByMetadataProcessedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'metadataProcessed', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMimeType() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByMimeType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByMimeTypeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByMimeTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mimeType', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByPath() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByPath() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'path', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByPathDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByPathDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'path', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenBySize() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenBySize() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'size', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenBySizeDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenBySizeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'size', Sort.desc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByWidth() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByWidth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'width', Sort.asc);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QAfterSortBy> thenByWidthDesc() {
+  QueryBuilder<MediaItem, MediaItem, QAfterSortBy> thenByWidthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'width', Sort.desc);
     });
   }
 }
 
-extension MediaFileQueryWhereDistinct
-    on QueryBuilder<MediaFile, MediaFile, QDistinct> {
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByAlbumName(
+extension MediaItemQueryWhereDistinct
+    on QueryBuilder<MediaItem, MediaItem, QDistinct> {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByAlbumName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'albumName', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByAssetId(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByAssetId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'assetId', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByCreatedAt() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByDuration() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duration');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExifCamera(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByExifCamera(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'exifCamera', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExifDate() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByExifDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'exifDate');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByExtractedText(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByExtractedText(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'extractedText',
@@ -3230,187 +3230,187 @@ extension MediaFileQueryWhereDistinct
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByFileName(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'fileName', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByHeight() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'height');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLastModified() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByLastModified() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastModified');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLatitude() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByLatitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'latitude');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByLongitude() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByLongitude() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'longitude');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMetadataFailed() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByMetadataFailed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'metadataFailed');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMetadataProcessed() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByMetadataProcessed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'metadataProcessed');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByMimeType(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByMimeType(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'mimeType', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByPath(
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByPath(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'path', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctBySize() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctBySize() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'size');
     });
   }
 
-  QueryBuilder<MediaFile, MediaFile, QDistinct> distinctByWidth() {
+  QueryBuilder<MediaItem, MediaItem, QDistinct> distinctByWidth() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'width');
     });
   }
 }
 
-extension MediaFileQueryProperty
-    on QueryBuilder<MediaFile, MediaFile, QQueryProperty> {
-  QueryBuilder<MediaFile, int, QQueryOperations> idProperty() {
+extension MediaItemQueryProperty
+    on QueryBuilder<MediaItem, MediaItem, QQueryProperty> {
+  QueryBuilder<MediaItem, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<MediaFile, String, QQueryOperations> albumNameProperty() {
+  QueryBuilder<MediaItem, String, QQueryOperations> albumNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'albumName');
     });
   }
 
-  QueryBuilder<MediaFile, String, QQueryOperations> assetIdProperty() {
+  QueryBuilder<MediaItem, String, QQueryOperations> assetIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'assetId');
     });
   }
 
-  QueryBuilder<MediaFile, DateTime, QQueryOperations> createdAtProperty() {
+  QueryBuilder<MediaItem, DateTime, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });
   }
 
-  QueryBuilder<MediaFile, int?, QQueryOperations> durationProperty() {
+  QueryBuilder<MediaItem, int?, QQueryOperations> durationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duration');
     });
   }
 
-  QueryBuilder<MediaFile, String?, QQueryOperations> exifCameraProperty() {
+  QueryBuilder<MediaItem, String?, QQueryOperations> exifCameraProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'exifCamera');
     });
   }
 
-  QueryBuilder<MediaFile, DateTime?, QQueryOperations> exifDateProperty() {
+  QueryBuilder<MediaItem, DateTime?, QQueryOperations> exifDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'exifDate');
     });
   }
 
-  QueryBuilder<MediaFile, String?, QQueryOperations> extractedTextProperty() {
+  QueryBuilder<MediaItem, String?, QQueryOperations> extractedTextProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'extractedText');
     });
   }
 
-  QueryBuilder<MediaFile, String, QQueryOperations> fileNameProperty() {
+  QueryBuilder<MediaItem, String, QQueryOperations> fileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fileName');
     });
   }
 
-  QueryBuilder<MediaFile, int?, QQueryOperations> heightProperty() {
+  QueryBuilder<MediaItem, int?, QQueryOperations> heightProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'height');
     });
   }
 
-  QueryBuilder<MediaFile, DateTime, QQueryOperations> lastModifiedProperty() {
+  QueryBuilder<MediaItem, DateTime, QQueryOperations> lastModifiedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastModified');
     });
   }
 
-  QueryBuilder<MediaFile, double?, QQueryOperations> latitudeProperty() {
+  QueryBuilder<MediaItem, double?, QQueryOperations> latitudeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'latitude');
     });
   }
 
-  QueryBuilder<MediaFile, double?, QQueryOperations> longitudeProperty() {
+  QueryBuilder<MediaItem, double?, QQueryOperations> longitudeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'longitude');
     });
   }
 
-  QueryBuilder<MediaFile, bool, QQueryOperations> metadataFailedProperty() {
+  QueryBuilder<MediaItem, bool, QQueryOperations> metadataFailedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'metadataFailed');
     });
   }
 
-  QueryBuilder<MediaFile, bool, QQueryOperations> metadataProcessedProperty() {
+  QueryBuilder<MediaItem, bool, QQueryOperations> metadataProcessedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'metadataProcessed');
     });
   }
 
-  QueryBuilder<MediaFile, String, QQueryOperations> mimeTypeProperty() {
+  QueryBuilder<MediaItem, String, QQueryOperations> mimeTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mimeType');
     });
   }
 
-  QueryBuilder<MediaFile, String?, QQueryOperations> pathProperty() {
+  QueryBuilder<MediaItem, String?, QQueryOperations> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'path');
     });
   }
 
-  QueryBuilder<MediaFile, int, QQueryOperations> sizeProperty() {
+  QueryBuilder<MediaItem, int, QQueryOperations> sizeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'size');
     });
   }
 
-  QueryBuilder<MediaFile, int?, QQueryOperations> widthProperty() {
+  QueryBuilder<MediaItem, int?, QQueryOperations> widthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'width');
     });

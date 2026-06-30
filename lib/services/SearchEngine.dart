@@ -1,13 +1,13 @@
 import 'package:isar/isar.dart';
-import 'package:storage_query_engine/models/media_file.dart';
+import 'package:storage_query_engine/models/media_item.dart';
 
 class SearchEngine {
   final Isar isar;
   SearchEngine(this.isar);
 
-  Future<List<MediaFile>> searchByText(String? text) async {
-    var query = isar.mediaFiles.filter();
-    late List<MediaFile> results = [];
+  Future<List<MediaItem>> searchByText(String? text) async {
+    var query = isar.mediaItems.filter();
+    late List<MediaItem> results = [];
 
     if (text != null && text.isNotEmpty) {
       results = await query.group((query) => query
@@ -22,9 +22,9 @@ class SearchEngine {
     return results;
   }
 
-  Future<List<MediaFile>> searchByType(String? text) async {
-    var query = isar.mediaFiles.filter();
-    late List<MediaFile> results = [];
+  Future<List<MediaItem>> searchByType(String? text) async {
+    var query = isar.mediaItems.filter();
+    late List<MediaItem> results = [];
 
     if (text != null && text.isNotEmpty) {
       results = await query.group((query) => query
@@ -35,12 +35,12 @@ class SearchEngine {
     return results;
   }
 
-  Future<List<MediaFile>> searchByDate({
+  Future<List<MediaItem>> searchByDate({
     DateTime? start,
     DateTime? end
   }) async {
-    var query = isar.mediaFiles.filter();
-    late List<MediaFile> results = [];
+    var query = isar.mediaItems.filter();
+    late List<MediaItem> results = [];
 
     if (start != null && end != null) {
       results = await query.group((q) => q

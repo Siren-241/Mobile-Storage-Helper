@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:storage_query_engine/models/media_file.dart';
+import 'package:storage_query_engine/models/media_item.dart';
 
 import 'DBEnrichment/MediaEnricher.dart';
 import 'DBEnrichment/PDFEnricher.dart';
@@ -9,7 +9,7 @@ Future<void> enrichUnprocessedMedia({required Isar isar}) async {
   int enriched = 0;
 
   while(true) {
-    final unprocessed = await isar.mediaFiles
+    final unprocessed = await isar.mediaItems
         .filter()
         .metadataProcessedEqualTo(false)
         .metadataFailedEqualTo(false)
@@ -18,7 +18,7 @@ Future<void> enrichUnprocessedMedia({required Isar isar}) async {
 
     if (unprocessed.isEmpty) break;
 
-    for (MediaFile media in unprocessed) {
+    for (MediaItem media in unprocessed) {
       try {
         if (media.mimeType.startsWith("image")) {
           await processMediaMetadata(media);
@@ -49,7 +49,7 @@ Future<void> enrichUnprocessedMedia({required Isar isar}) async {
     }
 
     await isar.writeTxn(() async {
-      await isar.mediaFiles.putAll(unprocessed);
+      await isar.mediaItems.putAll(unprocessed);
     });
 
     await Future.delayed(Duration(milliseconds: 100));
