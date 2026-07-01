@@ -9,7 +9,7 @@ class DbService {
 
   late final Isar _isar;
 
-  late MediaRepository mediaRepository;
+  late final MediaRepository mediaRepository;
 
   Future<void> init() async {
     final dir = await getApplicationDocumentsDirectory();

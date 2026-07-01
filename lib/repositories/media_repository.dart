@@ -5,7 +5,7 @@ import '../models/media_item.dart';
 
 class MediaRepository {
 
-  late Isar isar;
+  late final Isar isar;
 
   MediaRepository({ required this.isar });
 

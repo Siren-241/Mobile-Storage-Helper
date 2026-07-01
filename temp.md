@@ -1,4 +1,5 @@
 - [x] PDF Indexing
 - [x] DB Service
 - [x] Sync Deletes
-- [ ] Refactor Main, remove widgets
+- [x] Refactor Main, remove widgets
+- [ ] Fix sync deletions

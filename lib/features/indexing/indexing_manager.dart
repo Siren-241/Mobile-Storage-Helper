@@ -7,27 +7,23 @@ import 'package:storage_query_engine/features/indexing/indexers/media_indexer.da
 import 'package:storage_query_engine/services/db_service.dart';
 
 class IndexingManager {
-  final DbService dbService;
-  final MediaIndexer mediaIndexer;
-  final DocumentIndexer documentIndexer;
+  late final DbService dbService;
+  late final MediaIndexer mediaIndexer;
+  late final DocumentIndexer documentIndexer;
 
   late var currentEntries = <String, DateTime>{};
   Set<String> scannedIds = {};
 
-  IndexingManager({
-    required this.dbService,
-    required this.mediaIndexer,
-    required this.documentIndexer,
-  }) {
-    _init();
-  }
+  Future<void> init() async {
+    // Initialize DB service for the indexers
+    dbService = DbService();
+    await dbService.init();
 
-  Future<void> _init() async {
+    // Initialize indexers
+    mediaIndexer = MediaIndexer(dbService: dbService);
+    documentIndexer = DocumentIndexer(dbService: dbService);
+
     await _getPermissions();
-
-    debugPrint("[indexing_manager] Starting indexing...");
-
-    startFullIndex();
   }
 
   Future<void> _getPermissions() async {
@@ -69,6 +65,7 @@ class IndexingManager {
         .toList();
 
     dbService.deleteAll(deletedIds);
+    debugPrint("[indexing_manager] Deleted ${deletedIds.length} items from cache");
 
     for (final id in deletedIds) {
       currentEntries.remove(id);
@@ -77,12 +74,12 @@ class IndexingManager {
 
   Future<void> _scanMedia() async {
     Set<String> s = await mediaIndexer.scan(currentEntries);
-    scannedIds.union(s);
+    scannedIds.addAll(s);
   }
 
   Future<void> _scanDocs() async {
     Set<String> s = await documentIndexer.scan(currentEntries);
-    scannedIds.union(s);
+    scannedIds.addAll(s);
   }
 
   // ======== Public API =========
@@ -92,6 +89,7 @@ class IndexingManager {
 
     await _syncCurrentEntriesToDB();
 
+    debugPrint("[indexing_manager] Starting indexing...");
     await _scanMedia();
     await _scanDocs();
 
